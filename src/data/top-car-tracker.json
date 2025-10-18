@@ -59,7 +59,7 @@
 	},
 	"imagery": {
 		"backgroundImage": "",
-		"logoImage": "/top-car-tracker.webp",
+		"logoImage": "/topcartracker.webp",
 		"heroTextColor": "var(--color-background)",
 		"heroHasLottie": true,
 		"lottiePath": "/lottie/map-pin-2.json"
