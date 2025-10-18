@@ -13,5 +13,5 @@ export default defineConfig({
     },
     integrations: [icon(), sitemap(), solidJs()],
 
-    site: "https://smes-1.trajectra.com",
+    site: "https://topcartracker.com",
 });
