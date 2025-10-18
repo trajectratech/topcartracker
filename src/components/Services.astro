@@ -1,0 +1,73 @@
+---
+// Astro frontmatter
+import { Icon } from "astro-icon/components";
+import type { ThemeConfig } from "../types/theme";
+
+export interface Props {
+	data: ThemeConfig;
+}
+
+const { servicesSection } = Astro.props.data.content;
+---
+
+{Array.isArray(servicesSection?.listItems)  && servicesSection?.listItems?.length>0 && <section
+	id="services"
+	aria-labelledby="services-heading"
+	class="scrolling-section py-24 relative overflow-hidden bg-[var(--color-background)] text-[var(--color-text)]"
+>
+	<!-- Background Overlay (decorative only) -->
+	<!-- {
+		backgroundImage && (
+			<div
+				aria-hidden="true"
+				class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-5"
+				style={`background-image: url('${backgroundImage}')`}
+			/>
+		)
+	} -->
+
+	<!-- Content Wrapper -->
+	<div class="relative z-10 max-w-6xl mx-auto px-6">
+		<h2
+			id="services-heading"
+			class="text-4xl sm:text-5xl font-extrabold text-center mb-16 leading-tight text-[var(--color-heading)]"
+		>
+			{servicesSection.heading}
+		</h2>
+
+		<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+			{
+				servicesSection?.listItems.map((service, index) => {
+					const serviceId = `service-title-${index}`;
+					return (
+						<article
+							aria-labelledby={serviceId}
+							class="card group bg-white/10 backdrop-blur-xl rounded-2xl p-6 shadow-md hover:shadow-xl transition-transform duration-500 ease-out transform hover:-translate-y-2 hover:scale-[1.02]"
+							style={`border: 1px solid rgba(255, 255, 255, 0.1); animation-delay: ${index * 100}ms;`}
+						>
+							<div
+								class="flex items-center justify-center w-12 h-12 rounded-full bg-[var(--color-secondary)]/20 text-[var(--color-secondary)] mb-4 transition-all duration-300 group-hover:rotate-[6deg] group-hover:scale-110"
+								role="img"
+								aria-hidden="true"
+							>
+								<Icon name="heroicons-outline:check-circle" class="w-6 h-6" />
+							</div>
+							<h3
+								id={serviceId}
+								class="text-xl font-semibold text-[var(--color-heading)] mb-2"
+							>
+								{service.title}
+							</h3>
+							{service.description && (
+								<p class="text-sm text-[var(--color-muted)] leading-relaxed">
+									{service.description}
+								</p>
+							)}
+						</article>
+					);
+				})
+			}
+		</div>
+	</div>
+</section>
+}

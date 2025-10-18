@@ -1,0 +1,32 @@
+---
+import type { ThemeConfig } from "../types/theme";
+
+export interface Props {
+	data: ThemeConfig;
+}
+
+const { data } = Astro.props;
+---
+
+{
+	data?.map?.embedUrl && (
+		<section class="pt-0 bg-[var(--color-muted)]" aria-labelledby="map-heading">
+			<h2 id="map-heading" class="sr-only">
+				Location Map
+			</h2>
+
+			{data?.map?.embedUrl && (
+				<iframe
+					src={data.map.embedUrl}
+					width="100%"
+					height="300"
+					class="rounded-none border-0 shadow"
+					loading="lazy"
+					allowfullscreen
+					title="Embedded map"
+					referrerpolicy="no-referrer-when-downgrade"
+				/>
+			)}
+		</section>
+	)
+}

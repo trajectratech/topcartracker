@@ -1,0 +1,121 @@
+---
+import type { ThemeConfig } from "../types/theme";
+import CallToActionButton from "./CallToActionButton.astro";
+
+export interface Props {
+	data: ThemeConfig;
+}
+
+const { data } = Astro.props;
+const content = data.content.aboutSection;
+const contact = data.contact;
+
+const hasAboutContent =
+	content?.heading?.trim() ||
+	content?.paragraph?.trim() ||
+	content?.imageUrl?.trim();
+
+const hasLottie = content.hasLottie;
+const lottie = content.lottiePath;
+---
+
+{
+	hasAboutContent && (
+		<section
+			id="about"
+			aria-labelledby="about-heading"
+			role="region"
+			class="relative isolate px-6 py-6 sm:py-6 scrolling-section"
+			style="background: var(--color-background); color: var(--color-text);"
+		>
+			<div
+				class="absolute inset-0 z-0 animate-[pulse_10s_ease-in-out_infinite] bg-[radial-gradient(circle_at_bottom_right,var(--color-accent)_0%,transparent_70%)] opacity-10"
+				aria-hidden="true"
+			/>
+
+			<div class="relative z-10 mx-auto max-w-7xl flex flex-col-reverse md:flex-row items-center justify-center gap-16">
+				<div class="max-w-xl w-full text-center md:text-left space-y-6">
+					<h2
+						id="about-heading"
+						class="text-4xl sm:text-5xl font-bold tracking-tight"
+						style="color: var(--color-heading);"
+					>
+						{content.heading}
+					</h2>
+
+					<p
+						class="text-lg leading-relaxed"
+						style="color: var(--color-text-muted);"
+					>
+						{content.paragraph}
+					</p>
+
+					<div class="pt-4 space-y-2" role="contentinfo">
+						{contact.email && (
+							<a
+								href={`mailto:${contact.email}`}
+								class="inline-block text-base font-medium transition hover:underline"
+								style="color: var(--color-link);"
+								aria-label={`Send an email to ${contact.email}`}
+							>
+								📧 {contact.email}
+							</a>
+						)}
+
+						{contact.phone && (
+							<a
+								href={`tel:${contact.phone}`}
+								class="block text-base font-medium transition hover:underline"
+								style="color: var(--color-link);"
+								aria-label={`Call ${contact.phone}`}
+							>
+								📞 {contact.phone}
+							</a>
+						)}
+
+						{data?.content?.heroSection?.ctaUrl && (
+							<CallToActionButton
+								href={data.content.heroSection.ctaUrl}
+								label={data.content.heroSection.ctaText}
+							/>
+						)}
+					</div>
+				</div>
+
+				{content.imageUrl && (
+					<div
+						class="w-full max-w-sm overflow-hidden rounded-2xl shadow-lg ring-1 ring-inset"
+						style="border-color: var(--color-muted);"
+					>
+						<div class="relative w-full" style="aspect-ratio: 16 / 9;">
+							<div class="relative h-[400px]">
+								<img
+									src={content.imageUrl}
+									alt={content.heading || "About section image"}
+									class="absolute inset-0 w-full h-[400px] object-cover transition duration-500 hover:scale-105"
+									loading="lazy"
+									decoding="async"
+									fetchpriority="low"
+									role="img"
+								/>
+							</div>
+						</div>
+					</div>
+				)}
+
+				{!content?.imageUrl && hasLottie && lottie && (
+					<div class="w-full md:w-1/2 h-[300px] md:h-[500px]">
+						<lottie-player
+							src={lottie}
+							background="transparent"
+							speed="1"
+							loop
+							autoplay
+							style="width: 100%; height: 100%"
+						/>
+					</div>
+				)}
+			</div>
+		</section>
+	)
+}

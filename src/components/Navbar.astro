@@ -1,0 +1,192 @@
+---
+import type { ThemeConfig } from "../types/theme";
+import { getNavItemsFromTheme } from "../utils/getNavItems";
+import CallToActionButton from "./CallToActionButton.astro";
+
+export interface Props {
+	data: ThemeConfig;
+	mobileNavVariant?: "slide-down" | "slide-left" | "slide-right" | "fade";
+}
+
+const { data, mobileNavVariant = "slide-left" } = Astro.props;
+const navItems = getNavItemsFromTheme(data);
+const mobileVariantClass = `mobile-${mobileNavVariant}`;
+---
+
+<style>
+	/* Base mobile menu transition */
+	.mobile-menu {
+		transition: all 300ms ease-in-out;
+		opacity: 0;
+		pointer-events: none;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		background-color: var(--color-background);
+		z-index: 40;
+	}
+
+	.mobile-menu.open {
+		opacity: 1;
+		pointer-events: auto;
+	}
+
+	/* Slide variants */
+	.mobile-slide-down {
+		transform: translateY(-20%);
+	}
+	.mobile-slide-down.open {
+		transform: translateY(0);
+	}
+
+	.mobile-slide-left {
+		transform: translateX(-100%);
+	}
+	.mobile-slide-left.open {
+		transform: translateX(0);
+	}
+
+	.mobile-slide-right {
+		transform: translateX(100%);
+	}
+	.mobile-slide-right.open {
+		transform: translateX(0);
+	}
+
+	.mobile-fade {
+		transform: scale(0.95);
+	}
+	.mobile-fade.open {
+		transform: scale(1);
+	}
+</style>
+
+<nav
+	role="navigation"
+	aria-label="Main navigation"
+	class="w-full sticky top-0 z-50 bg-[var(--color-background)] text-[var(--color-text)] shadow-md"
+>
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="flex items-center justify-between h-16">
+			<!-- Logo -->
+			<a href="/" class="flex items-center space-x-2">
+				{
+					data.brand.logoImage && (
+						<img
+							src={data.brand.logoImage}
+							alt="Logo"
+							class="h-8 w-auto"
+							width="32"
+							height="32"
+							loading="lazy"
+							decoding="async"
+							fetchpriority="high"
+						/>
+					)
+				}
+				<!-- {
+					data.brand.businessName && (
+						<span class="hidden md:inline text-lg font-bold text-[var(--color-primary)]">
+							{data.brand.businessName}
+						</span>
+					)
+				} -->
+			</a>
+
+			<!-- Desktop Nav -->
+			<div class="hidden md:flex space-x-6">
+				{
+					navItems.map((item) =>
+						item.external ? (
+							<a
+								href={item.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="text-sm font-semibold px-4 py-2 rounded-full bg-[var(--color-primary)] text-[var(--color-background)] transition-transform duration-200 ease-in-out hover:scale-105"
+							>
+								{item.label}
+							</a>
+						) : (
+							<a
+								href={item.href}
+								class="text-sm font-medium hover:text-[var(--color-primary)] transition-transform duration-200 ease-in-out hover:scale-105"
+							>
+								{item.label}
+							</a>
+						),
+					)
+				}
+			</div>
+
+			<!-- Mobile Toggle -->
+			<div class="md:hidden">
+				<button
+					id="mobile-menu-toggle"
+					class="text-[var(--color-text)] hover:text-[var(--color-primary)] transition-transform duration-200 hover:scale-105"
+				>
+					☰
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Mobile Menu -->
+	<div id="mobile-menu" class={`mobile-menu ${mobileVariantClass} pb-4`}>
+		{
+			navItems.map((item) =>
+				item.external ? (
+					<CallToActionButton
+						href={item.href}
+						label={item.label}
+						className="ml-3"
+					/>
+				) : (
+					<a
+						href={item.href}
+						class="block px-4 py-2 text-sm font-medium hover:text-[var(--color-primary)] transition-transform duration-200 hover:scale-105"
+					>
+						{item.label}
+					</a>
+				),
+			)
+		}
+	</div>
+
+	<script type="module" is:inline>
+		const toggle = document.getElementById("mobile-menu-toggle");
+		const menu = document.getElementById("mobile-menu");
+
+		const openMenu = () => {
+			menu.classList.add("open");
+			toggle.textContent = "✕";
+		};
+
+		const closeMenu = () => {
+			menu.classList.remove("open");
+			toggle.textContent = "☰";
+		};
+
+		toggle.addEventListener("click", () => {
+			if (menu.classList.contains("open")) {
+				closeMenu();
+			} else {
+				openMenu();
+			}
+		});
+
+		menu.querySelectorAll("a").forEach((link) => {
+			link.addEventListener("click", () => {
+				closeMenu();
+			});
+		});
+
+		// Auto close on desktop resize
+		const mediaQuery = window.matchMedia("(min-width: 768px)");
+		mediaQuery.addEventListener("change", () => {
+			if (mediaQuery.matches) {
+				closeMenu();
+			}
+		});
+	</script>
+</nav>

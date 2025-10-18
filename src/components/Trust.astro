@@ -1,0 +1,58 @@
+---
+import type { ThemeConfig } from "../types/theme";
+
+export interface Props {
+	data: ThemeConfig;
+}
+
+const trust = Astro.props.data?.content?.trustSection;
+---
+
+{
+	trust?.heading && (
+		<section class="py-20 px-4 bg-[radial-gradient(circle_at_top_left,var(--color-muted)_0%,transparent_90%)] text-[var(--color-heading)]">
+			<div class="max-w-6xl mx-auto space-y-16">
+				<h2 class="text-3xl md:text-4xl font-bold text-center">
+					{trust.heading}
+				</h2>
+
+				{Array.isArray(trust.trustBadges) && trust.trustBadges.length > 0 && (
+					<div class="flex flex-wrap justify-center gap-6 sm:gap-8 items-center">
+						{trust.trustBadges.map((badge, i) => (
+							<img
+								src={badge}
+								alt={`Trust badge ${i + 1}`}
+								class="h-10 sm:h-12 md:h-14 grayscale hover:grayscale-0 transition duration-300"
+							/>
+						))}
+					</div>
+				)}
+
+				{Array.isArray(trust.stats) && trust.stats.length > 0 && (
+					<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-10 gap-x-6 text-center">
+						{trust.stats.map((stat, i) => (
+							<div>
+								<p class="text-3xl md:text-4xl font-extrabold text-[var(--color-primary)]">
+									{stat.value}
+								</p>
+								<p class="text-sm md:text-base text-[var(--color-text)]">
+									{stat.label}
+								</p>
+							</div>
+						))}
+					</div>
+				)}
+
+				{Array.isArray(trust.guarantees) && trust.guarantees.length > 0 && (
+					<div class="max-w-xl mx-auto">
+						<ul class="list-disc list-inside space-y-2 text-[var(--color-text)] text-sm sm:text-base leading-relaxed">
+							{trust.guarantees.map((g, i) => (
+								<li>{g}</li>
+							))}
+						</ul>
+					</div>
+				)}
+			</div>
+		</section>
+	)
+}

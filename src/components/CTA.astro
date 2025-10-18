@@ -1,0 +1,28 @@
+---
+// Cta.astro
+import type { ThemeConfig } from "../types/theme";
+export interface Props {
+	data: ThemeConfig;
+}
+const cta = Astro.props.data.content.ctaSection;
+---
+
+{
+	cta && (
+		<section
+			class="relative py-20 px-6 text-center text-white"
+			style={`background-color: ${cta.backgroundColor || "var(--color-primary)"}; background-image: url(${cta.backgroundImage || ""}); background-size: cover; background-position: center;`}
+		>
+			<div class="max-w-3xl mx-auto backdrop-blur-sm bg-[var(--color-secondary)] p-8 rounded-2xl">
+				<h2 class="text-3xl md:text-4xl font-bold mb-4">{cta.heading}</h2>
+				{cta.subheading && <p class="mb-6 text-lg">{cta.subheading}</p>}
+				<a
+					href={cta.ctaUrl}
+					class="inline-block mt-4 px-6 py-3 bg-[var(--color-primary)] text-white font-semibold rounded-lg shadow-lg hover:opacity-90 transition"
+				>
+					{cta.ctaText} 🚀
+				</a>
+			</div>
+		</section>
+	)
+}

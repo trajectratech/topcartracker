@@ -1,0 +1,108 @@
+---
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import type { ThemeConfig } from "../types/theme";
+
+export interface Props {
+	data: ThemeConfig;
+}
+
+const { data } = Astro.props;
+const testimonialsSection = data.content?.testimonialsSection;
+// const testimonials = testimonialsSection.testimonials ?? [];
+// const heading = testimonialsSection.heading ?? "Testimonials";
+---
+
+{Array.isArray(testimonialsSection?.testimonials) && testimonialsSection?.testimonials?.length > 0 &&<section
+	id="testimonials"
+	aria-labelledby="testimonials-heading"
+	role="region"
+	class="scrolling-section py-6 bg-[var(--color-background)]"
+>
+	<div class="max-w-5xl mx-auto px-6">
+		{testimonialsSection?.heading &&	<h2
+			id="testimonials-heading"
+			class="text-3xl font-bold text-center mb-12 text-[var(--color-primary)]"
+		>
+			{testimonialsSection.heading}
+		</h2> }
+	
+
+		<div class="grid gap-8 md:grid-cols-2">
+			{Array.isArray(testimonialsSection?.testimonials) && testimonialsSection?.testimonials?.length > 0 &&  
+				testimonialsSection?.testimonials.map((t, index) => (
+					<figure
+						class="card bg-[var(--color-muted)] p-6 rounded-2xl shadow transition-transform duration-500 ease-in-out opacity-0 animate-fade-in-up"
+						style={`animation-delay: ${index * 150}ms`}
+					>
+						<!-- Star Rating -->
+						<div class="flex gap-1 mb-2" >
+							{[...Array(t.rating)].map((_, i) => (
+								<Icon
+									name="heroicons-solid:star"
+									class="w-5 h-5 text-yellow-400"
+									aria-hidden="true"
+								/>
+							))}
+						</div>
+
+						<!-- Testimonial Comment -->
+						<blockquote class="italic text-[var(--color-text)] mb-4">
+							<p>“{t.comment}”</p>
+						</blockquote>
+
+						<!-- Author -->
+						<figcaption class="flex items-center gap-3">
+							{t.avatarUrl ? (
+								<Image
+									src={t.avatarUrl}
+									alt={`Avatar of ${t.name}`}
+									width={40}
+									height={40}
+									class="rounded-full object-cover"
+									format="webp"
+								/>
+							) : (
+								<svg
+									class="w-10 h-10 rounded-full bg-gray-300 text-white"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="currentColor"
+									viewBox="0 0 24 24"
+									aria-hidden="true"
+
+								>
+									<path d="M12 12c2.7 0 4.5-2.1 4.5-4.5S14.7 3 12 3 7.5 5.1 7.5 7.5 9.3 12 12 12zm0 1.5c-3 0-9 1.5-9 4.5V21h18v-3c0-3-6-4.5-9-4.5z" />
+								</svg>
+							)}
+
+							<div>
+								<p class="text-xs font-semibold text-[var(--color-text)]">
+									{t.name}
+								</p>
+								<p class="text-xs text-[var(--color-text)]">{t.position}</p>
+							</div>
+						</figcaption>
+					</figure>
+				))}
+		</div>
+	</div>
+</section>
+}
+
+
+<style>
+	@keyframes fade-in-up {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.animate-fade-in-up {
+		animation: fade-in-up 0.6s forwards;
+	}
+</style>

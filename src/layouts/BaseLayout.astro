@@ -1,0 +1,226 @@
+---
+// src/layouts/BaseLayout.astro
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import FontLoader from "../components/FontLoader.astro";
+
+import type { BaseLayoutProps } from "../types/base-layout.ts";
+
+import "../styles/global.css";
+
+const props = Astro.props as BaseLayoutProps;
+
+const {
+	title,
+	description,
+	url,
+	keywords,
+	businessName,
+	logoImage,
+	publicDirectory,
+} = props.data.brand;
+const colorVars = props.colorVars;
+const structuredData = props.structuredData;
+const webPageSchema = props.webPageSchema;
+const breadcrumbSchema = props.breadcrumbSchema;
+const ratingSchema = props.ratingSchema;
+const organizationSchema = props.organizationSchema;
+const faqsSchema = props.faqsSchema;
+---
+
+<html
+	lang="en"
+	style={Object.entries(colorVars)
+		.map(([k, v]) => `${k}: ${v}`)
+		.join("; ")}
+>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<FontLoader fontFamily={props.data.typography?.fontFamily || ""} />
+		<title>{props.data.seo?.pageTitle || title}</title>
+		<meta
+			name="description"
+			content={props.data.seo?.metaDescription || description}
+		/>
+		<meta name="keywords" content={keywords.join(", ")} />
+		<meta name="theme-color" content={colorVars["--color-primary"]} />
+		<meta name="author" content={businessName} />
+		<link rel="canonical" href={url} />
+		<link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+		{/* Favicon (browser tab) */}
+		<link rel="icon" href={publicDirectory + "/favicon.ico"} />
+
+		{/* Apple Touch Icon */}
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href={publicDirectory + "/apple-touch-icon.png"}
+		/>
+
+		{/* Android Chrome Icon */}
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="192x192"
+			href={publicDirectory + "/android-chrome-192x192.png"}
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="512x512"
+			href={publicDirectory + "/android-chrome-512x512.png"}
+		/>
+
+		{/* General PNG icons */}
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href={publicDirectory + "/favicon-32x32.png"}
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="16x16"
+			href={publicDirectory + "/favicon-16x16.png"}
+		/>
+
+		<!-- OG + Twitter + Pinterest -->
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta
+			property="og:image"
+			content={props.data.imagery?.heroImage || logoImage}
+		/>
+		<meta property="og:url" content={url} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={businessName} />
+		<meta
+			name="twitter:description"
+			content={props.data.seo?.metaDescription || description}
+		/>
+		<meta
+			name="twitter:image"
+			content={props.data.imagery?.heroImage || logoImage}
+		/>
+
+		<script src="//unpkg.com/alpinejs" defer></script>
+
+		<script
+			src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
+		></script>
+
+		<!-- Structured Data -->
+		<script
+			type="application/ld+json"
+			set:html={JSON.stringify(structuredData)}
+		/>
+		<script
+			type="application/ld+json"
+			set:html={JSON.stringify(webPageSchema)}
+		/>
+
+		{
+			breadcrumbSchema && (
+				<script
+					type="application/ld+json"
+					set:html={JSON.stringify(breadcrumbSchema)}
+				/>
+			)
+		}
+		{
+			ratingSchema && (
+				<script
+					type="application/ld+json"
+					set:html={JSON.stringify(ratingSchema)}
+				/>
+			)
+		}
+
+		{
+			faqsSchema && (
+				<script
+					type="application/ld+json"
+					set:html={JSON.stringify(faqsSchema)}
+				/>
+			)
+		}
+
+		<script
+			type="application/ld+json"
+			set:html={JSON.stringify(organizationSchema)}
+		/>
+	</head>
+	<body
+		class="bg-[var(--color-background)] text-text font-sans leading-relaxed scroll-smooth min-h-screen flex flex-col"
+	>
+		<main class="flex-grow">
+			<Navbar data={props.data} mobileNavVariant="slide-down" />
+			<slot />
+		</main>
+
+		<!-- Dynamic Page Content -->
+		<Footer data={props.data} />
+
+		<!-- Back to Top -->
+		<button
+			id="back-to-top"
+			class="cursor-pointer fixed bottom-6 right-6 z-50 px-5 py-2 rounded-full bg-[var(--color-primary)] text-[var(--color-background)] shadow-xl hover:shadow-2xl transition-all duration-300 opacity-0 pointer-events-none glow flex items-center justify-center gap-2"
+			aria-label="Back to top"
+		>
+			<span class="text-lg">⬆</span>
+			<span class="hidden sm:inline">Back to Top</span>
+		</button>
+
+		<script is:inline>
+			const backToTopBtn = document.getElementById("back-to-top");
+			window.addEventListener("scroll", () => {
+				if (window.scrollY > 300) {
+					backToTopBtn.classList.add("opacity-100", "pointer-events-auto");
+					backToTopBtn.classList.remove("opacity-0", "pointer-events-none");
+				} else {
+					backToTopBtn.classList.add("opacity-0", "pointer-events-none");
+					backToTopBtn.classList.remove("opacity-100", "pointer-events-auto");
+				}
+			});
+			backToTopBtn.addEventListener("click", () => {
+				window.scrollTo({ top: 0, behavior: "smooth" });
+			});
+		</script>
+		<script>
+			import { animate, stagger, inView } from "motion";
+			inView(
+				".scrolling-section",
+				(element) => {
+					animate(
+						element,
+						{ opacity: [0, 1], y: [50, 0] },
+						{ ease: [0.39, 0.24, 0.3, 1], duration: 1 },
+					);
+
+					const cards = element.querySelectorAll(".card");
+					if (cards.length > 0) {
+						animate(
+							cards,
+							{ opacity: [0, 1], y: [25, 0] },
+							{ type: "spring", delay: stagger(0.25, { startDelay: 0.25 }) },
+						);
+					}
+				},
+				{ amount: 0.25 },
+			);
+
+			// Wait for DOM to load
+			window.addEventListener("DOMContentLoaded", () => {
+				const btn = document.querySelector("#back-to-top");
+				if (btn) {
+					btn.addEventListener("mouseenter", () => {
+						animate(btn, { x: [0, -5, 5, -5, 5, 0] }, { duration: 0.4 });
+					});
+				}
+			});
+		</script>
+	</body>
+</html>

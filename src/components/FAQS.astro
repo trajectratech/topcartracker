@@ -1,0 +1,41 @@
+---
+import type { ThemeConfig } from "../types/theme";
+
+export interface Props {
+	data: ThemeConfig;
+}
+
+const { heading, faqs } = Astro.props.data.content.faqsSection;
+---
+
+{
+	faqs && Array.isArray(faqs) && faqs.length > 0 && (
+		<section class="scrolling-sectionfaqs-section py-12 px-4 md:px-8 max-w-3xl mx-auto">
+			<h2 class="text-3xl font-bold text-[var(--color-primary)] mb-8 text-center">
+				{heading}
+			</h2>
+
+			<div class="space-y-4">
+				{faqs.map((faq, index) => (
+					<details class="card bg-[var(--color-bg)] border border-[var(--color-primary)] rounded-lg shadow-sm transition-all duration-300 open:shadow-md group">
+						<summary class="cursor-pointer px-5 py-4 text-[var(--color-text)] font-medium flex justify-between items-center">
+							<span>{faq.question}</span>
+							<span class="transition-transform duration-300 group-open:rotate-180">
+								⌃
+							</span>
+						</summary>
+						<div class="px-5 pb-4 text-sm text-[var(--color-text-soft)]">
+							{faq.answer}
+						</div>
+					</details>
+				))}
+			</div>
+		</section>
+	)
+}
+
+<style>
+	.faqs-section details summary::-webkit-details-marker {
+		display: none;
+	}
+</style>

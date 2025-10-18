@@ -1,0 +1,119 @@
+---
+import type { ThemeConfig } from "../types/theme";
+import CallToActionButton from "./CallToActionButton.astro";
+
+export interface Props {
+	data: ThemeConfig;
+}
+
+const { data } = Astro.props;
+const content = data.content.heroSection;
+const heroImage = data.imagery.heroImage;
+const heroImageTextColor = data.imagery.heroTextColor;
+const hasHeroImage = !!heroImage;
+const heroHasLottie = data.imagery.heroHasLottie;
+const heroLottie = data?.imagery?.lottiePath;
+
+const textColor =
+	hasHeroImage && heroImageTextColor
+		? heroImageTextColor
+		: `var(--color-heading)`;
+---
+
+{
+	content && (
+		<section
+			class="hero scrolling-section relative isolate flex flex-col items-center justify-center text-center overflow-hidden px-6 py-6 sm:py-20"
+			style={`background: ${!hasHeroImage ? `var(--color-background)` : "none"}; color: var(--color-text);`}
+			aria-label="Hero Section"
+		>
+			{!hasHeroImage && (
+				<div
+					class="absolute inset-0 z-0 animate-[pulse_8s_ease-in-out_infinite] bg-[radial-gradient(circle_at_top_left,var(--color-primary)_0%,transparent_70%)] opacity-20"
+					aria-hidden="true"
+				/>
+			)}
+
+			{hasHeroImage && (
+				<img
+					src={heroImage}
+					alt="Hero background"
+					class="absolute inset-0 z-0 w-full h-full object-cover"
+					fetchpriority="high"
+					loading="eager"
+					decoding="async"
+					aria-hidden="true"
+				/>
+			)}
+
+			{heroHasLottie && heroLottie ? 
+
+		<div class="z-10">
+
+				<div class={`relative  flex flex-col }`}>
+			<!-- Two-column layout for text and Lottie -->
+			<div class="flex flex-col md:flex-row justify-between items-center">
+				<!-- Hero Text -->
+				<div class="w-full md:w-1/2 text-center md:text-left">
+					<h1
+					class="text-4xl md:text-6xl font-extrabold tracking-tight"
+					style={`color: ${textColor}`}
+				>
+					{content.heading}
+				</h1>
+
+				<p
+					class="mt-4 text-lg md:text-xl font-medium"
+					style={`color: ${textColor}`}
+				>
+					{content.paragraph}
+				</p>
+
+				</div>
+
+				<!-- Hero Lottie -->
+				{heroHasLottie && heroLottie && (
+					<div class="w-full md:w-1/2 h-[300px] md:h-[500px]">
+						<lottie-player
+							src={heroLottie}
+							background="transparent"
+							speed="1"
+							loop
+							autoplay
+							style="width: 100%; height: 100%"
+						></lottie-player>
+					</div>
+				)}
+			</div>
+			</div>
+
+			<div class="flex items-center justify-center">
+			<CallToActionButton href={content.ctaUrl} label={content.ctaText} />
+
+			</div>
+		</div>
+
+			: <div class="relative z-10 max-w-4xl mx-auto">
+				
+				<h1
+					class="text-4xl md:text-6xl font-extrabold tracking-tight"
+					style={`color: ${textColor}`}
+				>
+					{content.heading}
+				</h1>
+
+				<p
+					class="mt-4 text-lg md:text-xl font-medium"
+					style={`color: ${textColor}`}
+				>
+					{content.paragraph}
+				</p>
+
+				<CallToActionButton href={content.ctaUrl} label={content.ctaText} />
+			</div>
+			}
+
+			
+		</section>
+	)
+}

@@ -1,0 +1,68 @@
+---
+import { Icon } from "astro-icon/components";
+import type { ThemeConfig } from "../types/theme";
+
+export interface Props {
+	data: ThemeConfig;
+}
+
+const { data } = Astro.props;
+---
+
+{
+	Array.isArray(data?.pricing) && data.pricing.length > 0 && (
+		<section
+			id="pricing"
+			aria-labelledby="pricing-heading"
+			class="py-24 bg-[var(--color-muted)] text-[var(--color-text)] scrolling-section"
+		>
+			<div class="max-w-6xl mx-auto px-6">
+				<h2
+					id="pricing-heading"
+					class="text-4xl font-extrabold text-center mb-16 text-[var(--color-heading)] animate-fade-in-down"
+				>
+					Pricing Plans
+				</h2>
+
+				<div class="grid gap-10 md:grid-cols-3" role="list">
+					{data.pricing.map((plan, idx) => (
+						<article
+							role="listitem"
+							class="card rounded-2xl border shadow transition hover:scale-[1.03] hover:shadow-lg bg-[var(--color-background)] text-[var(--color-text)] p-6 animate-fade-in-up"
+							style={{
+								animationDelay: `${idx * 100}ms`,
+								animationFillMode: "both",
+							}}
+							aria-label={`Pricing plan: ${plan.plan}`}
+						>
+							<header>
+								<h3 class="text-2xl font-bold mb-3 text-[var(--color-primary)]">
+									{plan.plan}
+								</h3>
+
+								{plan.showPricing && plan.price && (
+									<p class="text-3xl font-semibold mb-6 text-[var(--color-accent)]">
+										{plan.price}
+									</p>
+								)}
+							</header>
+
+							<ul class="space-y-3 text-sm text-[var(--color-text)]">
+								{plan.features.map((f, i) => (
+									<li class="flex items-start gap-2">
+										<Icon
+											name="heroicons-solid:check"
+											class="w-5 h-5 text-[var(--color-success)] mt-0.5"
+											aria-hidden="true"
+										/>
+										<span>{f}</span>
+									</li>
+								))}
+							</ul>
+						</article>
+					))}
+				</div>
+			</div>
+		</section>
+	)
+}

@@ -1,0 +1,74 @@
+---
+// HowItWorks.astro
+import type { ThemeConfig } from "../types/theme";
+
+import CallToActionButton from "./CallToActionButton.astro";
+
+export interface Props {
+	data: ThemeConfig;
+}
+
+const howItWorksSection = Astro.props.data.content.howItWorksSection;
+const shouldRenderSection = Boolean(
+	howItWorksSection &&
+		((Array.isArray(howItWorksSection.steps) &&
+			howItWorksSection.steps.length > 0) ||
+			howItWorksSection.url),
+);
+---
+
+{
+	(
+		<div>
+			{shouldRenderSection && (
+				<section
+					class="scrolling-section py-6 text-[var(--color-text)]
+   					 bg-[radial-gradient(circle_at_top_left,var(--color-primary)_0%,transparent_98%)]"
+				>
+					{howItWorksSection && (
+						<div class="max-w-5xl mx-auto px-4 text-center">
+							{howItWorksSection?.heading && (
+								<h2 class="text-3xl md:text-4xl font-bold text-[var(--color-heading)] mb-12">
+									{howItWorksSection.heading}
+								</h2>
+							)}
+
+							<div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3">
+								{Array.isArray(howItWorksSection?.steps) &&
+									howItWorksSection?.steps.length > 0 &&
+									howItWorksSection?.steps.map((step, index) => (
+										<div class="card p-6 rounded-2xl bg-[color:var(--color-background)] shadow-sm backdrop-blur-md">
+											{step.iconUrl && (
+												<div class="w-14 h-14 mx-auto mb-4">
+													<img
+														src={step.iconUrl}
+														alt={step.title}
+														class="w-full h-full object-contain"
+													/>
+												</div>
+											)}
+											<h3 class="text-xl font-semibold text-[var(--color-heading)] mb-2">
+												{step.title}
+											</h3>
+											<p class="text-sm leading-relaxed text-[var(--color-text)]">
+												{step.description}
+											</p>
+										</div>
+									))}
+							</div>
+
+							{howItWorksSection?.url && howItWorksSection?.urlText && (
+								<div title={howItWorksSection?.urlText}>
+									<CallToActionButton
+										href={howItWorksSection?.url}
+										label={howItWorksSection?.urlText}
+									/>
+								</div>
+							)}
+						</div>
+					)}
+				</section>
+			)}
+		</div>
+	)
+}
