@@ -1,12 +1,26 @@
 import type { BusinessKeyEnum } from "../enums/business-key";
 import type { SectionKeyEnum } from "../enums/section-key";
 import type { SocialKeyEnum } from "../enums/social-key";
-import type { FAQsSection } from "./faqs";
+import type { FAQ, FAQsSection } from "./faqs";
 import type { Product } from "./product";
 
 export type SectionKey = `${SectionKeyEnum}`;
 export type SocialKey = `${SocialKeyEnum}`;
 export type BusinessKey = `${BusinessKeyEnum}`;
+
+export interface SeoLandingPage {
+	slug: string;
+	pageTitle: string;
+	metaDescription: string;
+	headline: string;
+	intro: string;
+	serviceType: string;
+	location: string;
+	primaryKeyword: string;
+	secondaryKeywords?: string[];
+	benefits: string[];
+	faqs?: FAQ[];
+}
 
 export interface ThemeConfig {
 	brand: {
@@ -251,6 +265,23 @@ export interface ThemeConfig {
 		paymentProviders?: string[];
 	};
 	seo?: {
+		siteName?: string;
+		siteLocale?: string;
+		siteCategory?: string;
+		defaultOgImage?: string;
+		ogImageAlt?: string;
+		twitterHandle?: string;
+		manifest?: {
+			name: string;
+			shortName: string;
+			backgroundColor: string;
+			themeColor: string;
+			display?: "standalone" | "minimal-ui" | "browser" | "fullscreen";
+		};
+		aiSummary?: string[];
+		serviceAreas?: string[];
+		targetKeywords?: string[];
+		landingPages?: SeoLandingPage[];
 		pageTitle?: string;
 		metaDescription?: string;
 		structuredData?: {

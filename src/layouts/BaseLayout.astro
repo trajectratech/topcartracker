@@ -11,25 +11,17 @@ import "../styles/global.css";
 const props = Astro.props as BaseLayoutProps;
 
 const {
-	title,
-	description,
-	url,
-	keywords,
 	businessName,
 	logoImage,
 	publicDirectory,
 } = props.data.brand;
 const colorVars = props.colorVars;
-const structuredData = props.structuredData;
-const webPageSchema = props.webPageSchema;
-const breadcrumbSchema = props.breadcrumbSchema;
-const ratingSchema = props.ratingSchema;
-const organizationSchema = props.organizationSchema;
-const faqsSchema = props.faqsSchema;
+const { metadata, structuredData } = props;
 ---
 
 <html
-	lang="en"
+	lang={metadata.locale.replace("_", "-")}
+	class="no-js"
 	style={Object.entries(colorVars)
 		.map(([k, v]) => `${k}: ${v}`)
 		.join("; ")}
@@ -37,17 +29,23 @@ const faqsSchema = props.faqsSchema;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="color-scheme" content="light dark" />
 		<FontLoader fontFamily={props.data.typography?.fontFamily || ""} />
-		<title>{props.data.seo?.pageTitle || title}</title>
-		<meta
-			name="description"
-			content={props.data.seo?.metaDescription || description}
-		/>
-		<meta name="keywords" content={keywords.join(", ")} />
+		<title>{metadata.title}</title>
+		<meta name="description" content={metadata.description} />
+		<meta name="keywords" content={metadata.keywords.join(", ")} />
 		<meta name="theme-color" content={colorVars["--color-primary"]} />
 		<meta name="author" content={businessName} />
-		<link rel="canonical" href={url} />
-		<link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+		<meta name="application-name" content={metadata.siteName} />
+		<meta name="apple-mobile-web-app-title" content={metadata.siteName} />
+		<meta name="robots" content={metadata.robots} />
+		<link rel="canonical" href={metadata.canonicalUrl} />
+		<link rel="manifest" href="/site.webmanifest" />
+		<link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+		<script is:inline>
+			document.documentElement.classList.remove("no-js");
+			document.documentElement.classList.add("js");
+		</script>
 
 		{/* Favicon (browser tab) */}
 		<link rel="icon" href={publicDirectory + "/favicon.ico"} />
@@ -87,77 +85,49 @@ const faqsSchema = props.faqsSchema;
 			href={publicDirectory + "/favicon-16x16.png"}
 		/>
 
-		<!-- OG + Twitter + Pinterest -->
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta
-			property="og:image"
-			content={props.data.imagery?.heroImage || logoImage}
-		/>
-		<meta property="og:url" content={url} />
+		<meta property="og:type" content={metadata.type || "website"} />
+		<meta property="og:site_name" content={metadata.siteName} />
+		<meta property="og:locale" content={metadata.locale} />
+		<meta property="og:title" content={metadata.title} />
+		<meta property="og:description" content={metadata.description} />
+		<meta property="og:image" content={metadata.ogImage || logoImage} />
+		<meta property="og:image:alt" content={metadata.ogImageAlt} />
+		<meta property="og:url" content={metadata.canonicalUrl} />
 		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content={businessName} />
-		<meta
-			name="twitter:description"
-			content={props.data.seo?.metaDescription || description}
-		/>
-		<meta
-			name="twitter:image"
-			content={props.data.imagery?.heroImage || logoImage}
-		/>
-
-		<script src="//unpkg.com/alpinejs" defer></script>
+		<meta name="twitter:title" content={metadata.title} />
+		<meta name="twitter:description" content={metadata.description} />
+		<meta name="twitter:image" content={metadata.ogImage || logoImage} />
+		<meta name="twitter:image:alt" content={metadata.ogImageAlt} />
+		{metadata.twitterHandle && (
+			<meta name="twitter:site" content={metadata.twitterHandle} />
+		)}
 
 		<script
+			is:inline
 			src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
 		></script>
 
-		<!-- Structured Data -->
-		<script
-			type="application/ld+json"
-			set:html={JSON.stringify(structuredData)}
-		/>
-		<script
-			type="application/ld+json"
-			set:html={JSON.stringify(webPageSchema)}
-		/>
-
 		{
-			breadcrumbSchema && (
+			structuredData.map((schema) => (
 				<script
+					is:inline
 					type="application/ld+json"
-					set:html={JSON.stringify(breadcrumbSchema)}
+					set:html={JSON.stringify(schema)}
 				/>
-			)
+			))
 		}
-		{
-			ratingSchema && (
-				<script
-					type="application/ld+json"
-					set:html={JSON.stringify(ratingSchema)}
-				/>
-			)
-		}
-
-		{
-			faqsSchema && (
-				<script
-					type="application/ld+json"
-					set:html={JSON.stringify(faqsSchema)}
-				/>
-			)
-		}
-
-		<script
-			type="application/ld+json"
-			set:html={JSON.stringify(organizationSchema)}
-		/>
 	</head>
 	<body
-		class="bg-[var(--color-background)] text-text font-sans leading-relaxed scroll-smooth min-h-screen flex flex-col"
+		class="bg-[var(--color-background)] text-[var(--color-text)] font-sans leading-relaxed min-h-screen flex flex-col"
 	>
-		<main class="flex-grow">
+		<div id="top" aria-hidden="true"></div>
+		<a href="#main-content" class="skip-link">Skip to content</a>
+
+		<header>
 			<Navbar data={props.data} mobileNavVariant="slide-down" />
+		</header>
+
+		<main id="main-content" tabindex="-1" class="flex-grow">
 			<slot />
 		</main>
 
@@ -165,62 +135,91 @@ const faqsSchema = props.faqsSchema;
 		<Footer data={props.data} />
 
 		<!-- Back to Top -->
-		<button
+		<a
 			id="back-to-top"
+			href="#top"
+			data-button
 			class="cursor-pointer fixed bottom-6 right-6 z-50 px-5 py-2 rounded-full bg-[var(--color-primary)] text-[var(--color-background)] shadow-xl hover:shadow-2xl transition-all duration-300 opacity-0 pointer-events-none glow flex items-center justify-center gap-2"
 			aria-label="Back to top"
 		>
-			<span class="text-lg">⬆</span>
+			<span class="text-lg" aria-hidden="true">⬆</span>
 			<span class="hidden sm:inline">Back to Top</span>
-		</button>
+		</a>
 
 		<script is:inline>
 			const backToTopBtn = document.getElementById("back-to-top");
-			window.addEventListener("scroll", () => {
-				if (window.scrollY > 300) {
-					backToTopBtn.classList.add("opacity-100", "pointer-events-auto");
-					backToTopBtn.classList.remove("opacity-0", "pointer-events-none");
-				} else {
-					backToTopBtn.classList.add("opacity-0", "pointer-events-none");
-					backToTopBtn.classList.remove("opacity-100", "pointer-events-auto");
-				}
-			});
-			backToTopBtn.addEventListener("click", () => {
-				window.scrollTo({ top: 0, behavior: "smooth" });
-			});
+			if (backToTopBtn) {
+				let ticking = false;
+				const update = () => {
+					const shouldShow = window.scrollY > 300;
+					backToTopBtn.classList.toggle("opacity-100", shouldShow);
+					backToTopBtn.classList.toggle("pointer-events-auto", shouldShow);
+					backToTopBtn.classList.toggle("opacity-0", !shouldShow);
+					backToTopBtn.classList.toggle("pointer-events-none", !shouldShow);
+				};
+
+				const onScroll = () => {
+					if (ticking) return;
+					ticking = true;
+					requestAnimationFrame(() => {
+						update();
+						ticking = false;
+					});
+				};
+
+				update();
+				window.addEventListener("scroll", onScroll, { passive: true });
+			}
 		</script>
-		<script>
-			import { animate, stagger, inView } from "motion";
-			inView(
-				".scrolling-section",
-				(element) => {
-					animate(
-						element,
-						{ opacity: [0, 1], y: [50, 0] },
-						{ ease: [0.39, 0.24, 0.3, 1], duration: 1 },
+		<script is:inline>
+			const reduceMotion =
+				window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+			if (reduceMotion) {
+				document.documentElement.classList.add("reduced-motion");
+			}
+
+			if (!reduceMotion) {
+				document.documentElement.classList.add("motion-safe");
+				const sections = Array.from(document.querySelectorAll(".scrolling-section"));
+				const reveal = (element) => {
+					element.classList.add("is-visible");
+				};
+
+				if ("IntersectionObserver" in window) {
+					const observer = new IntersectionObserver(
+						(entries, currentObserver) => {
+							entries.forEach((entry) => {
+								if (!entry.isIntersecting) return;
+								reveal(entry.target);
+								currentObserver.unobserve(entry.target);
+							});
+						},
+						{
+							threshold: 0.18,
+							rootMargin: "0px 0px -10% 0px",
+						},
 					);
 
-					const cards = element.querySelectorAll(".card");
-					if (cards.length > 0) {
-						animate(
-							cards,
-							{ opacity: [0, 1], y: [25, 0] },
-							{ type: "spring", delay: stagger(0.25, { startDelay: 0.25 }) },
-						);
-					}
-				},
-				{ amount: 0.25 },
-			);
+					sections.forEach((section) => observer.observe(section));
+				} else {
+					sections.forEach(reveal);
+				}
 
-			// Wait for DOM to load
-			window.addEventListener("DOMContentLoaded", () => {
 				const btn = document.querySelector("#back-to-top");
-				if (btn) {
+				if (btn && "animate" in btn) {
 					btn.addEventListener("mouseenter", () => {
-						animate(btn, { x: [0, -5, 5, -5, 5, 0] }, { duration: 0.4 });
+						btn.animate(
+							[
+								{ transform: "translateX(0)" },
+								{ transform: "translateX(-5px)" },
+								{ transform: "translateX(5px)" },
+								{ transform: "translateX(0)" },
+							],
+							{ duration: 280, easing: "ease-out" },
+						);
 					});
 				}
-			});
+			}
 		</script>
 	</body>
 </html>

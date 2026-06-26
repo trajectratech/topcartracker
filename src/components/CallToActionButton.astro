@@ -7,22 +7,24 @@ export interface Props {
 	rel?: string;
 	className?: string;
 }
-const {
-	href,
-	label,
-	target = "_blank",
-	rel = "noopener noreferrer",
-	className = "",
-} = Astro.props;
+const href = Astro.props.href;
+const label = Astro.props.label;
+const isExternalLink =
+	/^(https?:)?\/\//.test(href) ||
+	href.startsWith("mailto:") ||
+	href.startsWith("tel:");
+const target = Astro.props.target ?? (isExternalLink ? "_blank" : "_self");
+const rel = Astro.props.rel ?? (isExternalLink ? "noopener noreferrer" : undefined);
+const className = Astro.props.className ?? "";
 ---
 
 <a
 	href={href}
 	target={target}
 	rel={rel}
-	aria-label={label}
-	style="background-color: var(--color-primary); color: var(--color-background);"
-	class={`mt-8 inline-block px-8 py-3 rounded-full font-semibold shadow transition-transform duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)] ${className}`}
+	data-button
+	style="background-color: var(--color-primary); color: var(--color-background) !important; -webkit-text-fill-color: var(--color-background); text-decoration: none;"
+	class={`mt-8 inline-flex cursor-pointer items-center justify-center rounded-full px-6 py-3 text-sm font-semibold tracking-tight shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary)] ${className}`}
 >
 	{label}
 </a>

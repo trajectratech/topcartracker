@@ -19,6 +19,8 @@ const ProductModal: Component<ModalProps> = ({ product, isOpen, onClose }) => {
 	const [mainImage, setMainImage] = createSignal(product.imageUrl);
 	const [visible, setVisible] = createSignal(false);
 	let modalRef: HTMLDivElement | undefined;
+	let previouslyFocused: HTMLElement | null = null;
+	let previousOverflow = "";
 
 	const images = product.images
 		? [product.imageUrl, ...product.images]
@@ -29,13 +31,15 @@ const ProductModal: Component<ModalProps> = ({ product, isOpen, onClose }) => {
 		if (isOpen) {
 			const backToTopBtn = document.getElementById("back-to-top");
 			if (backToTopBtn) backToTopBtn.style.display = "none";
-			document.body.classList.add("overflow-hidden");
+			previouslyFocused = document.activeElement as HTMLElement | null;
+			previousOverflow = document.documentElement.style.overflow;
+			document.documentElement.style.overflow = "hidden";
 			setVisible(true);
 			setTimeout(() => modalRef?.focus(), 10); // focus modal
 		} else {
 			setVisible(false);
 			setTimeout(() => {
-				document.body.classList.remove("overflow-hidden");
+				document.documentElement.style.overflow = previousOverflow;
 			}, 300);
 		}
 	});
@@ -88,24 +92,28 @@ const ProductModal: Component<ModalProps> = ({ product, isOpen, onClose }) => {
 		setVisible(false);
 		const backToTopBtn = document.getElementById("back-to-top");
 		if (backToTopBtn) backToTopBtn.style.display = "block";
-		document.body.classList.remove("overflow-hidden");
+		document.documentElement.style.overflow = previousOverflow;
 		setTimeout(() => {
 			onClose();
+			previouslyFocused?.focus?.();
 		}, 300);
 	};
 
 	return (
 		<Show when={isOpen}>
 			<div
-				class={`fixed inset-0 z-50 flex items-center justify-center px-2 sm:px-4 bg-[var(--color-primary)]/40 backdrop-blur-sm transition-opacity duration-300 ${
+				class={`fixed inset-0 z-50 flex items-center justify-center px-2 sm:px-4 bg-[var(--color-heading)]/40 transition-opacity duration-300 ${
 					visible()
 						? "opacity-100 pointer-events-auto"
 						: "opacity-0 pointer-events-none"
 				}`}
+				onClick={(e) => {
+					if (e.target === e.currentTarget) handleClose();
+				}}
 			>
 				<div
-					ref={modalRef}
-					tabindex="-1"
+					ref={(el) => (modalRef = el)}
+					tabIndex={-1}
 					role="dialog"
 					aria-modal="true"
 					aria-labelledby="modal-title"
@@ -119,6 +127,7 @@ const ProductModal: Component<ModalProps> = ({ product, isOpen, onClose }) => {
 						class="absolute top-3 right-4 text-xl font-bold text-[var(--color-primary)] hover:opacity-80 cursor-pointer"
 						aria-label="Close modal"
 						onClick={handleClose}
+						type="button"
 					>
 						&times;
 					</button>
@@ -131,17 +140,28 @@ const ProductModal: Component<ModalProps> = ({ product, isOpen, onClose }) => {
 								src={mainImage()}
 								alt={product.title}
 								class="w-full aspect-video object-cover rounded-md"
+								loading="lazy"
+								decoding="async"
 							/>
 							<Show when={images?.length}>
 								<div class="flex gap-2 overflow-x-auto">
 									<For each={images}>
-										{(img) => (
-											<img
-												src={img}
-												alt="Product thumbnail"
+										{(img, index) => (
+											<button
+												type="button"
 												onClick={() => setMainImage(img)}
-												class="w-12 h-12 sm:w-14 sm:h-14 rounded object-cover border-2 border-transparent hover:border-[var(--color-primary)] cursor-pointer"
-											/>
+												class="w-12 h-12 sm:w-14 sm:h-14 rounded border-2 border-transparent hover:border-[var(--color-primary)] cursor-pointer overflow-hidden"
+												aria-label={`View image ${index() + 1}`}
+												aria-current={mainImage() === img ? "true" : undefined}
+											>
+												<img
+													src={img}
+													alt=""
+													class="w-full h-full object-cover"
+													loading="lazy"
+													decoding="async"
+												/>
+											</button>
 										)}
 									</For>
 								</div>
@@ -149,15 +169,15 @@ const ProductModal: Component<ModalProps> = ({ product, isOpen, onClose }) => {
 						</div>
 
 						{/* Right: Details */}
-						<div class="w-full md:w-1/2 space-y-3 text-sm text-[var(--color-primary)]">
-							<h2 id="modal-title" class="text-lg font-semibold">
+						<div class="w-full md:w-1/2 space-y-3 text-sm" style="color: var(--color-text);">
+							<h2 id="modal-title" class="text-lg font-semibold" style="color: var(--color-heading);">
 								{product.title}
 							</h2>
 							<p id="modal-desc" class="text-xs opacity-80">
 								{product.description}
 							</p>
 
-							<p class="text-base font-bold">
+							<p class="text-base font-bold" style="color: var(--color-heading);">
 								&#8358;{product.price.toLocaleString()}
 							</p>
 
@@ -191,7 +211,7 @@ const ProductModal: Component<ModalProps> = ({ product, isOpen, onClose }) => {
 
 							<Show when={product.reviews?.length}>
 								<div class="space-y-1 text-xs">
-									<h3 class="font-semibold">Top Review</h3>
+									<h3 class="font-semibold" style="color: var(--color-heading);">Top Review</h3>
 									<For each={product.reviews!.slice(0, 1)}>
 										{(r) => (
 											<div class="border-t pt-1 border-[var(--color-primary)]/10 text-[11px]">
@@ -210,6 +230,7 @@ const ProductModal: Component<ModalProps> = ({ product, isOpen, onClose }) => {
 									href={product.actionUrl}
 									target="_blank"
 									rel="noopener noreferrer"
+									data-button
 									class="cursor-pointer flex-1 bg-[var(--color-primary)] text-[var(--color-background)] py-2 rounded-lg text-center text-sm font-semibold hover:scale-[1.02] transition"
 								>
 									{product.actionText || "Buy Now"}
@@ -217,6 +238,7 @@ const ProductModal: Component<ModalProps> = ({ product, isOpen, onClose }) => {
 								<button
 									onClick={handleClose}
 									class="cursor-pointer flex-1 border border-[var(--color-primary)] text-[var(--color-primary)] py-2 rounded-lg text-sm font-medium hover:opacity-80"
+									type="button"
 								>
 									Close
 								</button>

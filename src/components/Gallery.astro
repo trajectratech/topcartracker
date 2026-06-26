@@ -36,7 +36,7 @@ const { gallery, galleryTitle } = Astro.props.data.imagery;
 						>
 							<img
 								src={img.imageUrl}
-								alt={img?.alt || `gallery ${index + 1}`}
+								alt={img?.alt || img?.caption || ""}
 								class="w-full aspect-[4/3] object-cover rounded-lg shadow-md"
 								loading="lazy"
 								decoding="async"

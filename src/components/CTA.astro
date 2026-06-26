@@ -1,5 +1,5 @@
 ---
-// Cta.astro
+import { Icon } from "astro-icon/components";
 import type { ThemeConfig } from "../types/theme";
 export interface Props {
 	data: ThemeConfig;
@@ -10,18 +10,78 @@ const cta = Astro.props.data.content.ctaSection;
 {
 	cta && (
 		<section
-			class="relative py-20 px-6 text-center text-white"
-			style={`background-color: ${cta.backgroundColor || "var(--color-primary)"}; background-image: url(${cta.backgroundImage || ""}); background-size: cover; background-position: center;`}
+			class="scrolling-section relative overflow-hidden bg-[var(--color-background)] px-6 py-28 text-[var(--color-text)]"
 		>
-			<div class="max-w-3xl mx-auto backdrop-blur-sm bg-[var(--color-secondary)] p-8 rounded-2xl">
-				<h2 class="text-3xl md:text-4xl font-bold mb-4">{cta.heading}</h2>
-				{cta.subheading && <p class="mb-6 text-lg">{cta.subheading}</p>}
-				<a
-					href={cta.ctaUrl}
-					class="inline-block mt-4 px-6 py-3 bg-[var(--color-primary)] text-white font-semibold rounded-lg shadow-lg hover:opacity-90 transition"
-				>
-					{cta.ctaText} 🚀
-				</a>
+			<div class="absolute inset-0 -z-10 opacity-70" aria-hidden="true"
+				style="background: radial-gradient(circle at 20% 10%, color-mix(in srgb, var(--color-primary) 20%, transparent) 0%, transparent 55%), radial-gradient(circle at 80% 90%, color-mix(in srgb, var(--color-accent) 14%, transparent) 0%, transparent 60%);"
+			></div>
+
+			<div
+				class="mx-auto max-w-7xl rounded-[40px] p-10 sm:p-14"
+				style="background: color-mix(in srgb, var(--color-muted) 70%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+			>
+				<div class="grid items-start gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+					<div>
+						<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+							Get Started
+						</p>
+						<h2 class="mt-6 text-4xl font-black tracking-tight sm:text-5xl" style="color: var(--color-heading);">
+							{cta.heading}
+						</h2>
+						{cta.subheading && (
+							<p class="mt-6 text-lg leading-8" style="color: var(--color-text);">
+								{cta.subheading}
+							</p>
+						)}
+						<a
+							href={cta.ctaUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+							data-button
+							class="mt-10 inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold tracking-tight transition duration-300 hover:-translate-y-0.5"
+							style="background: var(--color-primary); color: var(--color-background) !important; -webkit-text-fill-color: var(--color-background); text-decoration: none;"
+						>
+							{cta.ctaText}
+							<Icon name="heroicons-solid:external-link" class="h-4 w-4" aria-hidden="true" />
+						</a>
+					</div>
+
+					<div class="grid items-start gap-4 sm:grid-cols-2">
+						<div
+							class="self-start rounded-[28px] p-6"
+							style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+						>
+							<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+								Install
+							</p>
+							<p class="mt-4 text-base font-semibold leading-7" style="color: var(--color-heading);">
+								Professional installation at your location
+							</p>
+						</div>
+						<div
+							class="self-start rounded-[28px] p-6"
+							style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+						>
+							<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+								Monitor
+							</p>
+							<p class="mt-4 text-base font-semibold leading-7" style="color: var(--color-heading);">
+								Track, alert, and control from your phone
+							</p>
+						</div>
+						<div
+							class="self-start rounded-[28px] p-6 sm:col-span-2"
+							style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+						>
+							<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+								Support
+							</p>
+							<p class="mt-4 text-base font-semibold leading-7" style="color: var(--color-heading);">
+								Advice before and after installation, with responsive after-sales support
+							</p>
+						</div>
+					</div>
+				</div>
 			</div>
 		</section>
 	)

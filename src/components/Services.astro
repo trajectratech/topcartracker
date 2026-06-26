@@ -1,5 +1,4 @@
 ---
-// Astro frontmatter
 import { Icon } from "astro-icon/components";
 import type { ThemeConfig } from "../types/theme";
 
@@ -8,65 +7,126 @@ export interface Props {
 }
 
 const { servicesSection } = Astro.props.data.content;
+const services = servicesSection?.listItems ?? [];
 ---
 
-{Array.isArray(servicesSection?.listItems)  && servicesSection?.listItems?.length>0 && <section
+{Array.isArray(servicesSection?.listItems) && servicesSection?.listItems?.length > 0 && <section
 	id="services"
 	aria-labelledby="services-heading"
-	class="scrolling-section py-24 relative overflow-hidden bg-[var(--color-background)] text-[var(--color-text)]"
+	class="scrolling-section relative overflow-hidden bg-[var(--color-background)] py-28 text-[var(--color-text)]"
 >
-	<!-- Background Overlay (decorative only) -->
-	<!-- {
-		backgroundImage && (
-			<div
-				aria-hidden="true"
-				class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-5"
-				style={`background-image: url('${backgroundImage}')`}
-			/>
-		)
-	} -->
+	<div class="absolute inset-0 -z-10 opacity-60" aria-hidden="true"
+		style="background: radial-gradient(circle at top left, color-mix(in srgb, var(--color-primary) 18%, transparent) 0%, transparent 60%), radial-gradient(circle at bottom right, color-mix(in srgb, var(--color-accent) 14%, transparent) 0%, transparent 62%);"
+	></div>
 
-	<!-- Content Wrapper -->
-	<div class="relative z-10 max-w-6xl mx-auto px-6">
-		<h2
-			id="services-heading"
-			class="text-4xl sm:text-5xl font-extrabold text-center mb-16 leading-tight text-[var(--color-heading)]"
-		>
-			{servicesSection.heading}
-		</h2>
+	<div class="mx-auto max-w-7xl px-6">
+		<div class="mx-auto max-w-3xl text-center">
+			<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+				Services
+			</p>
+			<h2 id="services-heading" class="mt-6 text-4xl font-black tracking-tight sm:text-5xl" style="color: var(--color-heading);">
+				{servicesSection.heading}
+			</h2>
+			{servicesSection.paragraph && (
+				<p class="mt-6 text-lg leading-8" style="color: var(--color-text);">
+					{servicesSection.paragraph}
+				</p>
+			)}
+		</div>
 
-		<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-			{
-				servicesSection?.listItems.map((service, index) => {
-					const serviceId = `service-title-${index}`;
+		<div class="mt-16 grid items-start gap-6 lg:grid-cols-12">
+			{services.slice(0, 1).map((service) => (
+				<article
+					class="card lg:col-span-6 self-start rounded-[34px] p-10"
+					style="background: color-mix(in srgb, var(--color-muted) 74%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+				>
+					<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+						Signature
+					</p>
+					<h3 class="mt-6 text-3xl font-extrabold tracking-tight sm:text-4xl" style="color: var(--color-heading);">
+						{service.title}
+					</h3>
+					{service.description && (
+						<p class="mt-6 max-w-2xl text-base leading-8" style="color: var(--color-text);">
+							{service.description}
+						</p>
+					)}
+					<div class="mt-10 flex flex-wrap gap-3">
+						{services.slice(1, 5).map((item) => (
+							<span
+								class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm"
+								style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+							>
+								<Icon name="heroicons-solid:check-circle" class="h-4 w-4" style="color: var(--color-accent);" aria-hidden="true" />
+								<span class="font-semibold" style="color: var(--color-heading);">{item.title}</span>
+							</span>
+						))}
+					</div>
+				</article>
+			))}
+
+			<div class="lg:col-span-6 grid items-start gap-6 sm:grid-cols-2 lg:grid-cols-2">
+				{services.slice(1, 5).map((service, index) => {
+					const serviceId = `service-title-${index + 1}`;
 					return (
 						<article
 							aria-labelledby={serviceId}
-							class="card group bg-white/10 backdrop-blur-xl rounded-2xl p-6 shadow-md hover:shadow-xl transition-transform duration-500 ease-out transform hover:-translate-y-2 hover:scale-[1.02]"
-							style={`border: 1px solid rgba(255, 255, 255, 0.1); animation-delay: ${index * 100}ms;`}
+							class="card self-start rounded-[28px] p-7 transition duration-300 hover:-translate-y-1"
+							style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
 						>
 							<div
-								class="flex items-center justify-center w-12 h-12 rounded-full bg-[var(--color-secondary)]/20 text-[var(--color-secondary)] mb-4 transition-all duration-300 group-hover:rotate-[6deg] group-hover:scale-110"
-								role="img"
+								class="mb-6 flex h-12 w-12 items-center justify-center rounded-full"
+								style="background: color-mix(in srgb, var(--color-muted) 70%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 65%, transparent);"
 								aria-hidden="true"
 							>
-								<Icon name="heroicons-outline:check-circle" class="w-6 h-6" />
+								<Icon name="heroicons-solid:check" class="h-5 w-5" style="color: var(--color-heading);" />
 							</div>
-							<h3
-								id={serviceId}
-								class="text-xl font-semibold text-[var(--color-heading)] mb-2"
-							>
+							<h3 id={serviceId} class="text-xl font-bold tracking-tight" style="color: var(--color-heading);">
 								{service.title}
 							</h3>
 							{service.description && (
-								<p class="text-sm text-[var(--color-muted)] leading-relaxed">
+								<p class="mt-3 text-sm leading-7" style="color: var(--color-text);">
 									{service.description}
 								</p>
 							)}
 						</article>
 					);
-				})
-			}
+				})}
+			</div>
+
+			{services.slice(5).length > 0 && (
+				<div class="lg:col-span-12 grid items-start gap-6 md:grid-cols-3">
+					{services.slice(5).map((service, index) => {
+						const serviceId = `service-title-${index + 5}`;
+						return (
+							<article
+								aria-labelledby={serviceId}
+								class="card self-start rounded-[28px] p-7 transition duration-300 hover:-translate-y-1"
+								style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+							>
+								<div
+									class="mb-6 flex h-12 w-12 items-center justify-center rounded-full"
+									style="background: color-mix(in srgb, var(--color-muted) 70%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 65%, transparent);"
+									aria-hidden="true"
+								>
+									<Icon name="heroicons-solid:check" class="h-5 w-5" style="color: var(--color-heading);" />
+								</div>
+								<div class="flex items-center justify-between gap-4">
+									<h3 id={serviceId} class="text-xl font-bold tracking-tight" style="color: var(--color-heading);">
+										{service.title}
+									</h3>
+									<Icon name="heroicons-solid:arrow-right" class="h-5 w-5" style="color: var(--color-primary);" aria-hidden="true" />
+								</div>
+								{service.description && (
+									<p class="mt-4 text-sm leading-7" style="color: var(--color-text);">
+										{service.description}
+									</p>
+								)}
+							</article>
+						);
+					})}
+				</div>
+			)}
 		</div>
 	</div>
 </section>

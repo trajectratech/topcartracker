@@ -7,6 +7,13 @@ export interface Props {
 }
 
 const { data } = Astro.props;
+const plans = Array.isArray(data?.pricing) ? data.pricing : [];
+const primaryPlans = plans.slice(0, 3);
+const packagePlans = plans.slice(3);
+const recommendedIndex = primaryPlans.findIndex((plan) => /premium/i.test(plan.plan)) >= 0
+	? primaryPlans.findIndex((plan) => /premium/i.test(plan.plan))
+	: Math.min(1, Math.max(primaryPlans.length - 1, 0));
+const ctaUrl = data?.content?.ctaSection?.ctaUrl || data?.content?.heroSection?.ctaUrl;
 ---
 
 {
@@ -14,54 +21,122 @@ const { data } = Astro.props;
 		<section
 			id="pricing"
 			aria-labelledby="pricing-heading"
-			class="py-24 bg-[var(--color-muted)] text-[var(--color-text)] scrolling-section"
+			class="scrolling-section bg-[var(--color-background)] px-6 py-28 text-[var(--color-text)]"
 		>
-			<div class="max-w-6xl mx-auto px-6">
-				<h2
-					id="pricing-heading"
-					class="text-4xl font-extrabold text-center mb-16 text-[var(--color-heading)] animate-fade-in-down"
-				>
-					Pricing Plans
-				</h2>
+			<div class="mx-auto max-w-7xl">
+				<div class="mx-auto max-w-3xl text-center">
+					<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+						Pricing
+					</p>
+					<h2 id="pricing-heading" class="mt-6 text-4xl font-black tracking-tight sm:text-5xl" style="color: var(--color-heading);">
+						Pick a plan that matches your security level
+					</h2>
+					<p class="mt-6 text-lg leading-8" style="color: var(--color-text);">
+						One setup for private cars, advanced options for premium monitoring, and stronger packages for higher-risk use cases.
+					</p>
+				</div>
 
-				<div class="grid gap-10 md:grid-cols-3" role="list">
-					{data.pricing.map((plan, idx) => (
+				<div class="mt-16 grid items-start gap-6 lg:grid-cols-12" role="list">
+					{primaryPlans.map((plan, idx) => (
 						<article
 							role="listitem"
-							class="card rounded-2xl border shadow transition hover:scale-[1.03] hover:shadow-lg bg-[var(--color-background)] text-[var(--color-text)] p-6 animate-fade-in-up"
-							style={{
-								animationDelay: `${idx * 100}ms`,
-								animationFillMode: "both",
-							}}
+							class="card lg:col-span-4 self-start rounded-[30px] p-8 transition duration-300 hover:-translate-y-1"
+							style={`background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid ${idx === recommendedIndex ? "color-mix(in srgb, var(--color-primary) 55%, transparent)" : "color-mix(in srgb, var(--color-muted) 55%, transparent)"};`}
 							aria-label={`Pricing plan: ${plan.plan}`}
 						>
 							<header>
-								<h3 class="text-2xl font-bold mb-3 text-[var(--color-primary)]">
+								<div class="flex items-center justify-between gap-4">
+									<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+										{idx === recommendedIndex ? "Recommended" : `Plan ${idx + 1}`}
+									</p>
+									{idx === recommendedIndex && (
+										<span class="rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em]" style="background: var(--color-primary); color: var(--color-background);">
+											Best value
+										</span>
+									)}
+								</div>
+								<h3 class="mt-6 text-2xl font-extrabold tracking-tight" style="color: var(--color-heading);">
 									{plan.plan}
 								</h3>
 
 								{plan.showPricing && plan.price && (
-									<p class="text-3xl font-semibold mb-6 text-[var(--color-accent)]">
+									<p class="mt-4 text-3xl font-semibold" style="color: var(--color-accent);">
 										{plan.price}
 									</p>
 								)}
 							</header>
 
-							<ul class="space-y-3 text-sm text-[var(--color-text)]">
-								{plan.features.map((f, i) => (
-									<li class="flex items-start gap-2">
+							<ul class="mt-8 space-y-4 text-sm" style="color: var(--color-text);">
+								{plan.features.slice(0, 7).map((feature) => (
+									<li class="flex items-start gap-3">
 										<Icon
 											name="heroicons-solid:check"
-											class="w-5 h-5 text-[var(--color-success)] mt-0.5"
+											class="mt-0.5 h-5 w-5"
+											style="color: var(--color-success);"
 											aria-hidden="true"
 										/>
-										<span>{f}</span>
+										<span class="leading-7">{feature}</span>
 									</li>
 								))}
 							</ul>
+
+							{plan.features.length > 7 && (
+								<p class="mt-5 text-sm font-semibold" style="color: var(--color-primary);">
+									+{plan.features.length - 7} more included features
+								</p>
+							)}
+
+							{ctaUrl && (
+								<a
+									href={ctaUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+									data-button
+									class="mt-10 inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold tracking-tight transition duration-300 hover:-translate-y-0.5"
+									style={`background: ${idx === recommendedIndex ? "var(--color-primary)" : "color-mix(in srgb, var(--color-muted) 70%, transparent)"}; color: ${idx === recommendedIndex ? "var(--color-background)" : "var(--color-heading)"}; border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);`}
+								>
+									Get this plan
+									<Icon name="heroicons-solid:external-link" class="h-4 w-4" aria-hidden="true" />
+								</a>
+							)}
 						</article>
 					))}
-				</div>
+			</div>
+
+				{packagePlans.length > 0 && (
+					<div class="mt-8 grid items-start gap-6">
+						{packagePlans.map((plan) => (
+							<article
+								class="card self-start rounded-[34px] p-10"
+								style="background: color-mix(in srgb, var(--color-muted) 70%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+							>
+								<div class="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+									<div>
+										<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+											Bundle
+										</p>
+										<h3 class="mt-6 text-3xl font-extrabold tracking-tight sm:text-4xl" style="color: var(--color-heading);">
+											{plan.plan}
+										</h3>
+										<p class="mt-6 text-base leading-8" style="color: var(--color-text);">
+											Combine multiple upgrades into one premium installation for stronger all-round protection.
+										</p>
+									</div>
+									<div class="grid gap-4 sm:grid-cols-3">
+										{plan.features.map((feature) => (
+											<div
+												class="rounded-[24px] p-6 text-center"
+												style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+											>
+												<p class="font-semibold" style="color: var(--color-heading);">{feature}</p>
+											</div>
+										))}
+									</div>
+								</div>
+							</article>
+						))}
+					</div>
+				)}
 			</div>
 		</section>
 	)

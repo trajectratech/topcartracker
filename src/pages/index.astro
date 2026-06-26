@@ -1,45 +1,45 @@
 ---
-import type { ThemeConfig, SectionKey } from '../types/theme';
-import mainJson from '../data/top-car-tracker.json';
+import type { ThemeConfig, SectionKey } from "../types/theme";
+import mainJson from "../data/top-car-tracker.json";
 
-import About from '../components/About.astro';
-import Hero from '../components/Hero.astro';
-import Pricing from '../components/Pricing.astro';
-import Services from '../components/Services.astro';
-import Testimonials from '../components/Testimonials.astro';
-import Gallery from '../components/Gallery.astro';
-import Map from '../components/Map.astro';
-import FAQS from '../components/FAQS.astro';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import HowItWorks from '../components/HowItWorks.astro';
-import Products from '../components/Products.astro';
-import TargetAudience from '../components/TargetAudience.astro';
-import DemoShowcase from '../components/DemoShowcase.astro';
-import CTA from '../components/CTA.astro';
-import PromoLiveBanner from '../components/PromoLiveBanner.astro';
-import Trust from '../components/Trust.astro';
+import About from "../components/About.astro";
+import Hero from "../components/Hero.astro";
+import Pricing from "../components/Pricing.astro";
+import Services from "../components/Services.astro";
+import Testimonials from "../components/Testimonials.astro";
+import Gallery from "../components/Gallery.astro";
+import Map from "../components/Map.astro";
+import FAQS from "../components/FAQS.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HowItWorks from "../components/HowItWorks.astro";
+import Products from "../components/Products.astro";
+import TargetAudience from "../components/TargetAudience.astro";
+import DemoShowcase from "../components/DemoShowcase.astro";
+import CTA from "../components/CTA.astro";
+import PromoLiveBanner from "../components/PromoLiveBanner.astro";
+import Trust from "../components/Trust.astro";
+import { getHomePageSeo } from "../utils/seo";
 
-import '../styles/global.css';
+import "../styles/global.css";
 
 const data = mainJson as ThemeConfig;
 const layout: SectionKey[] = data.layout.sectionOrder;
 
 const colorVars = {
-	'--color-primary': data.colors.primary,
-	'--color-secondary': data.colors.secondary,
-	'--color-accent': data.colors.accent,
-	'--color-background': data.colors.background,
-	'--color-text': data.colors.text,
-	'--color-heading': data.colors.heading,
-	'--color-link': data.colors.link,
-	'--color-hover': data.colors.hover,
-	'--color-active': data.colors.active,
-	'--color-error': data.colors.error,
-	'--color-success': data.colors.success,
-	'--color-muted': data.colors.muted,
+	"--color-primary": data.colors.primary,
+	"--color-secondary": data.colors.secondary,
+	"--color-accent": data.colors.accent,
+	"--color-background": data.colors.background,
+	"--color-text": data.colors.text,
+	"--color-heading": data.colors.heading,
+	"--color-link": data.colors.link,
+	"--color-hover": data.colors.hover,
+	"--color-active": data.colors.active,
+	"--color-error": data.colors.error,
+	"--color-success": data.colors.success,
+	"--color-muted": data.colors.muted,
 };
 
-// Section map using component references
 const sectionMap: Record<SectionKey, any> = {
 	heroSection: Hero,
 	aboutSection: About,
@@ -58,135 +58,15 @@ const sectionMap: Record<SectionKey, any> = {
 	trustSection: Trust,
 };
 
-const sameAsUrls = data.socialMedia?.map((sm) => sm.url) ?? [];
-
-if (data?.googleBusinessProfileLink) {
-	sameAsUrls.push(data.googleBusinessProfileLink);
-}
-
-const structuredData = {
-	'@context': 'https://schema.org',
-	'@type': 'LocalBusiness',
-	name: data.brand.businessName,
-	description: data.brand.description,
-	'@id': `${data.brand.url}#localbusiness`,
-	url: data.brand.url,
-	logo: data.brand.logoImage,
-	image: data.imagery?.heroImage || data.brand.logoImage,
-	telephone: data.contact.phone,
-	address: {
-		'@type': 'PostalAddress',
-		streetAddress: data.contact.address,
-		addressLocality: data.contact.addressLocality,
-		addressRegion: data.contact.addressRegion,
-		addressCountry: data.contact.addressCountry,
-	},
-	contactPoint: {
-		'@type': 'ContactPoint',
-		telephone: data.contact.phone,
-		contactType: 'customer support',
-		email: data.contact.email,
-	},
-	...(data.contact.geoData?.latitude &&
-		data.contact.geoData?.longitude && {
-			geo: {
-				'@type': 'GeoCoordinates',
-				latitude: data.contact.geoData.latitude,
-				longitude: data.contact.geoData.longitude,
-			},
-		}),
-	areaServed: {
-		'@type': 'Place',
-		address: {
-			'@type': 'PostalAddress',
-			addressRegion: data.contact.addressRegion,
-			addressCountry: data.contact.addressCountry,
-		},
-	},
-	sameAs: sameAsUrls,
-	priceRange: '₦₦',
-	openingHours: 'Mo-Su 08:00-20:00',
-};
-
-const webPageSchema = {
-	'@context': 'https://schema.org',
-	'@type': 'WebPage',
-	name: data.brand.title,
-	url: data.brand.url,
-	description: data.brand.description,
-};
-
-// Structured Data: BreadcrumbList
-const breadcrumbSchema = {
-	'@context': 'https://schema.org',
-	'@type': 'BreadcrumbList',
-	itemListElement: [
-		{
-			'@type': 'ListItem',
-			position: 1,
-			name: 'Home',
-			item: data.brand.url,
-		},
-	],
-};
-
-// Structured Data: AggregateRating (if testimonials exist)
-const testimonials = data.content?.testimonialsSection?.testimonials;
-
-const ratingSchema =
-	Array.isArray(testimonials) && testimonials.length
-		? {
-				'@context': 'https://schema.org',
-				'@type': 'AggregateRating',
-				ratingValue: (
-					testimonials.reduce((sum, t) => sum + (t.rating || 0), 0) /
-					testimonials.length
-				).toFixed(1), // One decimal place
-				reviewCount: testimonials.length,
-				itemReviewed: {
-					'@type': 'LocalBusiness',
-					name: data.brand.businessName,
-				},
-			}
-		: null;
-
-const organizationSchema = {
-	'@context': 'https://schema.org',
-	'@type': 'Organization',
-	name: data.brand.businessName,
-	url: data.brand.url,
-	logo: data.brand.logoImage,
-	sameAs: sameAsUrls,
-};
-
-const faqs = data?.content?.faqsSection?.faqs;
-const faqsSchema =
-	Array.isArray(faqs) && faqs.length > 0
-		? {
-				'@context': 'https://schema.org',
-				'@type': 'FAQPage',
-				mainEntity: faqs.map((faq) => ({
-					'@type': 'Question',
-					name: faq.question,
-					acceptedAnswer: {
-						'@type': 'Answer',
-						text: faq.answer,
-					},
-				})),
-			}
-		: null;
+const seo = getHomePageSeo(data);
 
 const props = {
 	data,
 	layout,
 	colorVars,
-	structuredData,
-	webPageSchema,
-	breadcrumbSchema,
-	ratingSchema,
-	organizationSchema,
-	faqsSchema,
-	sameAsUrls,
+	metadata: seo.metadata,
+	structuredData: seo.structuredData,
+	sameAsUrls: seo.sameAsUrls,
 };
 ---
 
@@ -195,11 +75,7 @@ const props = {
 		layout.map((section) => {
 			const Component = sectionMap[section];
 			if (!Component) return null;
-			return (
-				<section aria-labelledby={`${section}-heading`}>
-					<Component data={data} />
-				</section>
-			);
+			return <Component data={data} />;
 		})
 	}
 </BaseLayout>

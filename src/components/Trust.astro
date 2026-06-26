@@ -1,4 +1,5 @@
 ---
+import { Icon } from "astro-icon/components";
 import type { ThemeConfig } from "../types/theme";
 
 export interface Props {
@@ -6,53 +7,203 @@ export interface Props {
 }
 
 const trust = Astro.props.data?.content?.trustSection;
+const stats = trust?.stats ?? [];
+const guarantees = trust?.guarantees ?? [];
+const ctaUrl = Astro.props.data?.content?.heroSection?.ctaUrl;
+
+const getCountupTarget = (value: string) => {
+	const trimmedValue = value.trim();
+	if (!/^\d[\d,]*\+?$/.test(trimmedValue)) return null;
+
+	const digits = trimmedValue.replace(/[^\d]/g, "");
+	return digits ? Number.parseInt(digits, 10) : null;
+};
 ---
 
 {
 	trust?.heading && (
-		<section class="py-20 px-4 bg-[radial-gradient(circle_at_top_left,var(--color-muted)_0%,transparent_90%)] text-[var(--color-heading)]">
-			<div class="max-w-6xl mx-auto space-y-16">
-				<h2 class="text-3xl md:text-4xl font-bold text-center">
-					{trust.heading}
-				</h2>
+		<section class="scrolling-section bg-[var(--color-background)] px-6 py-28 text-[var(--color-heading)]">
+			<div class="mx-auto max-w-7xl">
+				<div class="mx-auto max-w-3xl text-center">
+					<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+						Trust & Proof
+					</p>
+					<h2 class="mt-6 text-4xl font-black tracking-tight sm:text-5xl" style="color: var(--color-heading);">
+						{trust.heading}
+					</h2>
+					<p class="mt-6 text-lg leading-8" style="color: var(--color-text);">
+						Clean installation, reliable monitoring, and responsive support designed for Nigeria.
+					</p>
+				</div>
 
-				{Array.isArray(trust.trustBadges) && trust.trustBadges.length > 0 && (
-					<div class="flex flex-wrap justify-center gap-6 sm:gap-8 items-center">
-						{trust.trustBadges.map((badge, i) => (
-							<img
-								src={badge}
-								alt={`Trust badge ${i + 1}`}
-								class="h-10 sm:h-12 md:h-14 grayscale hover:grayscale-0 transition duration-300"
-							/>
-						))}
-					</div>
-				)}
+				<div class="mt-16 grid items-start gap-6 lg:grid-cols-12">
+					<div class="lg:col-span-5 grid items-start gap-6">
+						{stats.map((stat) => {
+							const numericValue = getCountupTarget(stat.value);
+							return (
+								<div
+									class="card self-start rounded-[28px] p-8"
+									style="background: color-mix(in srgb, var(--color-muted) 70%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+								>
+									<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+										Signal
+									</p>
+									<p class="mt-5 text-4xl font-black tracking-tight" style="color: var(--color-heading);">
+										{numericValue ? (
+											<span
+												data-countup
+												data-target={String(numericValue)}
+												data-final-value={stat.value}
+											>
+												{stat.value}
+											</span>
+										) : (
+											stat.value
+										)}
+									</p>
+									<p class="mt-3 text-sm leading-7" style="color: var(--color-text);">
+										{stat.label}
+									</p>
+								</div>
+							);
+						})}
 
-				{Array.isArray(trust.stats) && trust.stats.length > 0 && (
-					<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-10 gap-x-6 text-center">
-						{trust.stats.map((stat, i) => (
-							<div>
-								<p class="text-3xl md:text-4xl font-extrabold text-[var(--color-primary)]">
-									{stat.value}
+						{ctaUrl && (
+							<a
+								href={ctaUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								data-button
+								class="cursor-pointer self-start rounded-[28px] p-8 transition duration-300 hover:-translate-y-1"
+								style="background: color-mix(in srgb, var(--color-primary) 18%, transparent); border: 1px solid color-mix(in srgb, var(--color-primary) 40%, transparent);"
+							>
+								<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+									Quick Quote
 								</p>
-								<p class="text-sm md:text-base text-[var(--color-text)]">
-									{stat.label}
+								<p class="mt-5 text-xl font-bold" style="color: var(--color-heading);">
+									Tell us your vehicle type and what you want to monitor.
+								</p>
+								<p class="mt-4 text-sm leading-7" style="color: var(--color-text);">
+									Get a recommendation and installation guidance on WhatsApp.
+								</p>
+								<div class="mt-6 inline-flex items-center gap-2 text-sm font-semibold" style="color: var(--color-heading);">
+									Get started
+									<Icon name="heroicons-solid:external-link" class="h-4 w-4" aria-hidden="true" />
+								</div>
+							</a>
+						)}
+					</div>
+
+					<div
+						class="lg:col-span-7 card self-start rounded-[34px] p-10"
+						style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+					>
+						<div class="flex items-start justify-between gap-8">
+							<div>
+								<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+									What you can expect
+								</p>
+								<h3 class="mt-6 text-3xl font-extrabold tracking-tight sm:text-4xl" style="color: var(--color-heading);">
+									A premium experience from booking to after-sales support
+								</h3>
+								<p class="mt-6 max-w-2xl text-base leading-8" style="color: var(--color-text);">
+									The service is designed to feel simple: clear recommendations, professional installation, and monitoring you can depend on.
 								</p>
 							</div>
-						))}
-					</div>
-				)}
+							<div
+								class="hidden sm:flex h-14 w-14 items-center justify-center rounded-3xl"
+								style="background: color-mix(in srgb, var(--color-muted) 70%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+								aria-hidden="true"
+							>
+								<Icon name="heroicons-solid:shield-check" class="h-6 w-6" style="color: var(--color-accent);" aria-hidden="true" />
+							</div>
+						</div>
 
-				{Array.isArray(trust.guarantees) && trust.guarantees.length > 0 && (
-					<div class="max-w-xl mx-auto">
-						<ul class="list-disc list-inside space-y-2 text-[var(--color-text)] text-sm sm:text-base leading-relaxed">
-							{trust.guarantees.map((g, i) => (
-								<li>{g}</li>
-							))}
-						</ul>
+						{guarantees.length > 0 && (
+							<div class="mt-10 grid items-start gap-4 sm:grid-cols-2">
+								{guarantees.map((guarantee) => (
+									<div
+										class="self-start rounded-[24px] p-6"
+										style="background: color-mix(in srgb, var(--color-muted) 62%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+									>
+										<div class="flex items-start gap-3">
+											<Icon name="heroicons-solid:badge-check" class="h-5 w-5" style="color: var(--color-accent);" aria-hidden="true" />
+											<p class="text-base font-semibold" style="color: var(--color-heading);">
+												{guarantee}
+											</p>
+										</div>
+										<p class="mt-3 text-sm leading-7" style="color: var(--color-text);">
+											Built in as part of the service, not added as an extra.
+										</p>
+									</div>
+								))}
+							</div>
+						)}
+
+						{Array.isArray(trust.trustBadges) && trust.trustBadges.length > 0 && (
+							<div class="mt-12 flex flex-wrap items-center gap-6">
+								{trust.trustBadges.map((badge, i) => (
+									<img
+										src={badge}
+										alt={`Trust badge ${i + 1}`}
+										class="h-10 sm:h-12 md:h-14 opacity-90 transition duration-300 hover:opacity-100"
+									/>
+								))}
+							</div>
+						)}
 					</div>
-				)}
+				</div>
 			</div>
+			<script is:inline>
+				const countupElements = document.querySelectorAll("[data-countup]");
+				const formatCount = (value) => new Intl.NumberFormat("en-NG").format(value);
+
+				const animateCount = (element) => {
+					if (element.dataset.counted === "true") return;
+					const target = Number.parseInt(element.dataset.target || "0", 10);
+					const finalValue = element.dataset.finalValue || element.textContent || "";
+					if (!target) return;
+
+					element.dataset.counted = "true";
+					const duration = 1400;
+					const startValue = 1;
+					const startTime = performance.now();
+
+					const step = (now) => {
+						const progress = Math.min((now - startTime) / duration, 1);
+						const eased = 1 - Math.pow(1 - progress, 3);
+						const currentValue = Math.round(
+							startValue + (target - startValue) * eased,
+						);
+
+						element.textContent =
+							progress < 1 ? formatCount(currentValue) : finalValue;
+
+						if (progress < 1) {
+							requestAnimationFrame(step);
+						}
+					};
+
+					requestAnimationFrame(step);
+				};
+
+				if ("IntersectionObserver" in window) {
+					const observer = new IntersectionObserver(
+						(entries, currentObserver) => {
+							entries.forEach((entry) => {
+								if (!entry.isIntersecting) return;
+								animateCount(entry.target);
+								currentObserver.unobserve(entry.target);
+							});
+						},
+						{ threshold: 0.4 },
+					);
+
+					countupElements.forEach((element) => observer.observe(element));
+				} else {
+					countupElements.forEach(animateCount);
+				}
+			</script>
 		</section>
 	)
 }

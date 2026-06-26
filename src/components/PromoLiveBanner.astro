@@ -17,7 +17,7 @@ if (promo?.expiresAt) {
 
 {
 	!isExpired && promo && (
-		<div class="scrolling-section bg-[var(--color-text)] text-[var(--color-text)] px-6 py-4 text-center relative">
+		<div class="scrolling-section bg-[var(--color-heading)] text-[var(--color-background)] px-6 py-4 text-center relative">
 			<div class="flex flex-col md:flex-row items-center justify-center gap-4">
 				<span class="text-lg font-medium text-[var(--color-background)]">
 					{promo.message}
@@ -26,7 +26,9 @@ if (promo?.expiresAt) {
 					target="_blank"
 					rel="noopener noreferrer"
 					href={promo.ctaUrl}
-					class="bg-[var(--color-background)] text-[var(--color-primary)] hover:text-[var(--color-hover)] hover:bg-[var(--color-secondary)] transition-all px-4 py-2 rounded font-semibold text-sm shadow"
+					data-button
+					style="text-decoration: none;"
+					class="bg-[var(--color-background)] text-[var(--color-primary)] hover:text-[var(--color-hover)] hover:bg-[var(--color-muted)] transition-all px-4 py-2 rounded font-semibold text-sm shadow"
 				>
 					{promo.ctaText}
 				</a>
@@ -42,18 +44,18 @@ if (promo?.expiresAt) {
 				{metrics.showVisitorCount && (
 					<div>
 						<p class="text-3xl font-bold">👀 5,439+</p>
-						<p class="text-[var(--color-muted)]">Visitors today</p>
+						<p class="text-[var(--color-text-muted)]">Visitors today</p>
 					</div>
 				)}
 				{metrics.showCustomerCount && (
 					<div>
 						<p class="text-3xl font-bold">🎉 1,248+</p>
-						<p class="text-[var(--color-muted)]">Happy customers</p>
+						<p class="text-[var(--color-text-muted)]">Happy customers</p>
 					</div>
 				)}
 			</div>
 			{metrics.lastUpdatedText && (
-				<p class="text-xs text-[var(--color-muted)] text-center mt-4">
+				<p class="text-xs text-[var(--color-text-muted)] text-center mt-4">
 					{metrics.lastUpdatedText}
 				</p>
 			)}
