@@ -75,11 +75,7 @@ const props = {
 		layout.map((section) => {
 			const Component = sectionMap[section];
 			if (!Component) return null;
-			return (
-				<section aria-labelledby={`${section}-heading`}>
-					<Component data={data} />
-				</section>
-			);
+			return <Component data={data} />;
 		})
 	}
 </BaseLayout>

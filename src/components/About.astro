@@ -24,97 +24,131 @@ const lottie = content.lottiePath;
 		<section
 			id="about"
 			aria-labelledby="about-heading"
-			role="region"
-			class="relative isolate px-6 py-6 sm:py-6 scrolling-section"
-			style="background: var(--color-background); color: var(--color-text);"
+			class="scrolling-section relative isolate bg-[var(--color-background)] px-6 py-28 text-[var(--color-text)]"
 		>
-			<div
-				class="absolute inset-0 z-0 animate-[pulse_10s_ease-in-out_infinite] bg-[radial-gradient(circle_at_bottom_right,var(--color-accent)_0%,transparent_70%)] opacity-10"
-				aria-hidden="true"
-			/>
+			<div class="absolute inset-0 -z-10 opacity-60" aria-hidden="true"
+				style="background: radial-gradient(circle at bottom right, color-mix(in srgb, var(--color-accent) 14%, transparent) 0%, transparent 60%);"
+			></div>
 
-			<div class="relative z-10 mx-auto max-w-7xl flex flex-col-reverse md:flex-row items-center justify-center gap-16">
-				<div class="max-w-xl w-full text-center md:text-left space-y-6">
-					<h2
-						id="about-heading"
-						class="text-4xl sm:text-5xl font-bold tracking-tight"
-						style="color: var(--color-heading);"
-					>
+			<div class="mx-auto grid max-w-7xl items-start gap-14 lg:grid-cols-[0.95fr_1.05fr]">
+				<div class="text-left">
+					<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+						About
+					</p>
+					<h2 id="about-heading" class="mt-6 text-4xl font-black tracking-tight sm:text-5xl" style="color: var(--color-heading);">
 						{content.heading}
 					</h2>
-
-					<p
-						class="text-lg leading-relaxed"
-						style="color: var(--color-text-muted);"
-					>
+					<p class="mt-6 text-lg leading-8" style="color: var(--color-text);">
 						{content.paragraph}
 					</p>
 
-					<div class="pt-4 space-y-2" role="contentinfo">
+					<address class="mt-10 not-italic grid items-start gap-4 sm:grid-cols-2">
 						{contact.email && (
 							<a
 								href={`mailto:${contact.email}`}
-								class="inline-block text-base font-medium transition hover:underline"
-								style="color: var(--color-link);"
+								data-button
+								class="cursor-pointer rounded-[24px] p-6 transition duration-300 hover:-translate-y-0.5"
+								style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
 								aria-label={`Send an email to ${contact.email}`}
 							>
-								📧 {contact.email}
+								<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+									Email
+								</p>
+								<p class="mt-4 text-base font-semibold" style="color: var(--color-heading);">
+									{contact.email}
+								</p>
 							</a>
 						)}
 
 						{contact.phone && (
 							<a
 								href={`tel:${contact.phone}`}
-								class="block text-base font-medium transition hover:underline"
-								style="color: var(--color-link);"
+								data-button
+								class="cursor-pointer rounded-[24px] p-6 transition duration-300 hover:-translate-y-0.5"
+								style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
 								aria-label={`Call ${contact.phone}`}
 							>
-								📞 {contact.phone}
+								<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+									Phone
+								</p>
+								<p class="mt-4 text-base font-semibold" style="color: var(--color-heading);">
+									{contact.phone}
+								</p>
 							</a>
 						)}
+					</address>
 
-						{data?.content?.heroSection?.ctaUrl && (
-							<CallToActionButton
-								href={data.content.heroSection.ctaUrl}
-								label={data.content.heroSection.ctaText}
-							/>
-						)}
-					</div>
+					{data?.content?.heroSection?.ctaUrl && (
+						<CallToActionButton
+							href={data.content.heroSection.ctaUrl}
+							label={data.content.heroSection.ctaText}
+						/>
+					)}
 				</div>
 
-				{content.imageUrl && (
+				<div
+					class="rounded-[34px] p-6"
+					style="background: color-mix(in srgb, var(--color-muted) 70%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+				>
 					<div
-						class="w-full max-w-sm overflow-hidden rounded-2xl shadow-lg ring-1 ring-inset"
-						style="border-color: var(--color-muted);"
+						class="rounded-[32px] p-6"
+						style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
 					>
-						<div class="relative w-full" style="aspect-ratio: 16 / 9;">
-							<div class="relative h-[400px]">
-								<img
-									src={content.imageUrl}
-									alt={content.heading || "About section image"}
-									class="absolute inset-0 w-full h-[400px] object-cover transition duration-500 hover:scale-105"
-									loading="lazy"
-									decoding="async"
-									fetchpriority="low"
-									role="img"
+						{content.imageUrl && (
+							<div class="overflow-hidden rounded-[28px]" style="border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);">
+								<div class="relative w-full" style="aspect-ratio: 16 / 11;">
+									<img
+										src={content.imageUrl}
+										alt=""
+										aria-hidden="true"
+										class="absolute inset-0 h-full w-full object-cover transition duration-500 hover:scale-105"
+										loading="lazy"
+										decoding="async"
+										fetchpriority="low"
+									/>
+								</div>
+							</div>
+						)}
+
+						{!content?.imageUrl && hasLottie && lottie && (
+							<div class="js-only h-[360px] w-full overflow-hidden rounded-[28px]" style="border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);">
+								<lottie-player
+									src={lottie}
+									background="transparent"
+									speed="1"
+									loop
+									autoplay
+									style="width: 100%; height: 100%"
 								/>
+							</div>
+						)}
+
+						<div class="mt-6 grid items-start gap-4 sm:grid-cols-2">
+							<div
+								class="rounded-[24px] p-6"
+								style="background: color-mix(in srgb, var(--color-muted) 62%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+							>
+								<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+									Address
+								</p>
+								<p class="mt-4 text-sm font-semibold leading-7" style="color: var(--color-heading);">
+									{contact.address}
+								</p>
+							</div>
+							<div
+								class="rounded-[24px] p-6"
+								style="background: color-mix(in srgb, var(--color-muted) 62%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+							>
+								<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+									Support
+								</p>
+								<p class="mt-4 text-sm font-semibold leading-7" style="color: var(--color-heading);">
+									Advice before and after installation
+								</p>
 							</div>
 						</div>
 					</div>
-				)}
-
-				{!content?.imageUrl && hasLottie && lottie && (
-					<div class="w-full md:w-1/2 h-[300px] md:h-[500px]">
-						<lottie-player
-							src={lottie}
-							background="transparent"
-							speed="1"
-							loop
-							autoplay
-							style="width: 100%; height: 100%"
-						/>
-					</div>
-				)}
+				</div>
 			</div>
 		</section>
 	)

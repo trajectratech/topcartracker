@@ -1,6 +1,5 @@
 import type { JSX } from "solid-js";
 import { createSignal, createMemo, For, Show } from "solid-js";
-import { Motion } from "solid-motionone";
 
 import ProductCard from "./product-card";
 import ProductModal from "./product-modal";
@@ -70,31 +69,57 @@ export default function Products({ products, heading }: Props): JSX.Element {
 	};
 
 	return (
-		<main class="px-4 py-6 md:px-8 lg:px-16 scrolling-section">
+		<section
+			id="products"
+			aria-labelledby="products-heading"
+			class="px-4 py-6 md:px-8 lg:px-16 scrolling-section"
+		>
 			{heading && (
-				<h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-8 text-[var(--color-heading)]">
+				<h2
+					id="products-heading"
+					class="text-4xl sm:text-5xl font-extrabold text-center mb-8 text-[var(--color-heading)]"
+				>
 					{heading}
 				</h2>
 			)}
 
 			<div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 				<div class="flex flex-col sm:flex-row sm:items-center gap-3">
-					<input
-						type="text"
-						placeholder="Search products..."
-						value={searchQuery()}
-						onInput={(e) => setSearchQuery(e.currentTarget.value)}
-						class="px-4 py-2 rounded border border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] w-full sm:w-auto"
-					/>
+					<div class="flex flex-col gap-1">
+						<label
+							for="product-search"
+							class="text-sm font-medium"
+							style="color: var(--color-text);"
+						>
+							Search
+						</label>
+						<input
+							id="product-search"
+							type="search"
+							placeholder="Search products"
+							value={searchQuery()}
+							onInput={(e) => setSearchQuery(e.currentTarget.value)}
+							autocomplete="off"
+							class="px-4 py-2 rounded border border-[var(--color-primary)] bg-[var(--color-background)] w-full sm:w-72"
+						/>
+					</div>
 
 					<div class="flex flex-col gap-1">
-						<label class="text-sm font-medium text-gray-600">Sort by</label>
+						<label
+							for="product-sort"
+							class="text-sm font-medium"
+							style="color: var(--color-text);"
+						>
+							Sort
+						</label>
 						<select
+							id="product-sort"
 							value={sortOption()}
 							onChange={(e) =>
 								setSortOption(e.currentTarget.value as SortOption)
 							}
-							class="px-4 py-2 rounded-lg border border-[var(--color-primary)] bg-white text-sm text-gray-700 shadow-sm transition focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] hover:border-[var(--color-primary)]"
+							class="px-4 py-2 rounded-lg border border-[var(--color-primary)] bg-[var(--color-background)] text-sm shadow-sm transition hover:border-[var(--color-primary)]"
+							style="color: var(--color-heading);"
 						>
 							<option value="priceAsc">Price: Low to High</option>
 							<option value="priceDesc">Price: High to Low</option>
@@ -112,10 +137,12 @@ export default function Products({ products, heading }: Props): JSX.Element {
 							{(tag) => (
 								<button
 									onClick={() => toggleTag(tag)}
+									type="button"
+									aria-pressed={selectedTags().includes(tag)}
 									class={`cursor-pointer px-3 py-1 rounded-full border text-sm hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] ${
 										selectedTags().includes(tag)
 											? "bg-[var(--color-primary)] text-[var(--color-background)]"
-											: "border[var(--color-primary)] text-[var(--color-primary)]"
+											: "border-[var(--color-primary)] text-[var(--color-primary)]"
 									}`}
 								>
 									{tag}
@@ -128,36 +155,32 @@ export default function Products({ products, heading }: Props): JSX.Element {
 
 			<Show
 				when={filteredProducts().length > 0}
-				fallback={<p class="text-center text-gray-500">No products found.</p>}
+				fallback={
+					<p class="text-center" style="color: var(--color-text-muted);">
+						No products found.
+					</p>
+				}
 			>
-				<Motion.section
-					initial={{ opacity: 0, x: -30 }}
-					animate={{ opacity: 1, x: 0 }}
-					transition={{ duration: 0.6 }}
+				<section
 					class="
 					flex gap-4 overflow-x-auto px-2 py-4 scroll-smooth scroll-px-4 
 					snap-x snap-mandatory 
-					scrollbar-thin scrollbar-thumb-[#999]/50 scrollbar-track-transparent
+					scrollbar-thin scrollbar-thumb-[color-mix(in_srgb,var(--color-heading)_25%,transparent)] scrollbar-track-transparent
 					sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 
 					sm:overflow-x-visible
 					"
 				>
 					<For each={filteredProducts()}>
 						{(product) => (
-							<Motion.div
-								initial={{ opacity: 0, y: 30 }}
-								animate={{ opacity: 1, y: 0 }}
-								transition={{ duration: 0.6 }}
-								class="flex-shrink-0 w-[80%] snap-start sm:w-auto"
-							>
+							<div class="flex-shrink-0 w-[80%] snap-start sm:w-auto">
 								<ProductCard
 									product={product}
 									onClick={() => setSelectedProduct(product)}
 								/>
-							</Motion.div>
+							</div>
 						)}
 					</For>
-				</Motion.section>
+				</section>
 			</Show>
 
 			{selectedProduct() && (
@@ -167,6 +190,6 @@ export default function Products({ products, heading }: Props): JSX.Element {
 					onClose={() => setSelectedProduct(null)}
 				/>
 			)}
-		</main>
+		</section>
 	);
 }

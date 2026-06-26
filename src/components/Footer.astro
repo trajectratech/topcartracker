@@ -36,7 +36,7 @@ const iconMap: Record<SocialKey, string> = {
 <footer
 	id="contact"
 	aria-label="Footer"
-	class="scrolling-section bg-[var(--color-heading)] text-[var(--color-background)] py-12 px-6 text-sm"
+	class="scrolling-section bg-[var(--color-muted)] text-[var(--color-text)] py-16 px-6 text-sm"
 >
 	<div
 		class="max-w-6xl mx-auto flex flex-col md:flex-row md:justify-between md:items-start gap-10 text-center md:text-left"
@@ -58,7 +58,7 @@ const iconMap: Record<SocialKey, string> = {
 
 			{
 				data.brand.description && (
-					<p class="text-[var(--color-background)]/80 text-sm leading-relaxed">
+					<p class="text-sm leading-relaxed opacity-80">
 						{data.brand.description}
 					</p>
 				)
@@ -67,7 +67,7 @@ const iconMap: Record<SocialKey, string> = {
 
 		<!-- Right: Social Links & Contact -->
 		<div class="card flex flex-col items-center md:items-start gap-6">
-			<h2 class="font-extrabold">Contact Details</h2>
+			<h2 class="font-extrabold text-[var(--color-heading)]">Contact Details</h2>
 			<!-- Contact Info -->
 			<div class="flex flex-col sm:flex-row gap-6 items-center md:justify-end">
 				<a
@@ -110,7 +110,7 @@ const iconMap: Record<SocialKey, string> = {
 											target="_blank"
 											rel="noopener noreferrer"
 											aria-label={`Visit our ${item.name} page`}
-											class="hover:scale-110 hover:text-[var(--color-accent)] transition-transform duration-200"
+											class="cursor-pointer hover:scale-110 hover:text-[var(--color-accent)] transition-transform duration-200"
 										>
 											<Icon name={icon} class="w-6 h-6" aria-hidden="true" />
 										</a>
@@ -126,8 +126,8 @@ const iconMap: Record<SocialKey, string> = {
 		{
 			landingPages.length > 0 && (
 				<div class="card flex flex-col items-center md:items-start gap-4 md:max-w-sm">
-					<h2 class="font-extrabold">Popular Searches</h2>
-					<ul class="space-y-2 text-[var(--color-background)]/80">
+					<h2 class="font-extrabold text-[var(--color-heading)]">Popular Searches</h2>
+					<ul class="space-y-2 opacity-80">
 						{landingPages.map((page) => (
 							<li>
 								<a
@@ -144,9 +144,9 @@ const iconMap: Record<SocialKey, string> = {
 		}
 	</div>
 
-	<hr class="w-full border-t border-[var(--color-background)]/30 my-6 mt-10" />
+	<hr class="w-full border-t my-6 mt-10 opacity-30" style="border-color: var(--color-text);" />
 
-	<p class="text-xs text-center text-[var(--color-background)]/80">
+	<p class="text-xs text-center opacity-80">
 		&copy; {new Date().getFullYear()}{" "}
 		{data.brand.businessName}
 		{data.poweredBy.shouldShow && " — Powered by "}

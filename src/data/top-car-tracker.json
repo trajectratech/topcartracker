@@ -1,7 +1,7 @@
 {
 	"brand": {
 		"title": "Top Car Tracker Nigeria | GPS Vehicle Tracking, Fleet Management and Car Security",
-		"businessName": "Top Car Tracker",
+		"businessName": "Top Car Tracker Nigeria",
 		"tagline": "Smart Security. Total Control. Enhanced Fleet Performance.",
 		"description": "Top Car Tracker Nigeria provides GPS car tracking, vehicle tracking, fleet management, dashcam installation, fuel monitoring, and car security solutions across Nigeria.",
 		"logoImage": "/topcartracker.webp",
@@ -27,18 +27,18 @@
 		]
 	},
 	"colors": {
-		"primary": "#0000ff",
-		"secondary": "#000000",
-		"accent": "#ffffff",
-		"background": "#F9FAFB",
+		"primary": "#1D4ED8",
+		"secondary": "#0F172A",
+		"accent": "#F59E0B",
+		"background": "#F8FAFC",
 		"text": "#111827",
-		"heading": "#0F172A",
+		"heading": "#020617",
 		"link": "#1D4ED8",
-		"hover": "#191919",
-		"active": "#0000e4",
-		"error": "#e74c3c",
-		"success": "#10B981",
-		"muted": "#6B7280"
+		"hover": "#1E40AF",
+		"active": "#1E3A8A",
+		"error": "#DC2626",
+		"success": "#16A34A",
+		"muted": "#E5E7EB"
 	},
 	"typography": {
 		"fontFamily": "Inter",
@@ -65,7 +65,7 @@
 	"imagery": {
 		"backgroundImage": "",
 		"logoImage": "/topcartracker.webp",
-		"heroTextColor": "var(--color-background)",
+		"heroTextColor": "var(--color-heading)",
 		"heroHasLottie": true,
 		"lottiePath": "/lottie/map-pin-2.json"
 	},
@@ -269,6 +269,12 @@
 			"heading": "How It Works",
 			"url": "https://www.instagram.com/reel/DL7iBCCtBp9/?igsh=MWI0d3htbG96Nzd4cA==",
 			"urlText": "View The Breakdown"
+		},
+		"ctaSection": {
+			"heading": "Ready to secure your vehicle or fleet?",
+			"subheading": "Get a recommendation, book installation, and start monitoring from your phone.",
+			"ctaText": "Get a Quote on WhatsApp",
+			"ctaUrl": "https://wa.me/2349010544454?text=Hi,%0A%20I%27d%20love%20to%20make%20a%20few%20enquiries%20about%20car%20tracking%20installation."
 		}
 	},
 	"pricing": [
@@ -345,9 +351,9 @@
 			"gallerySection",
 			"pricingSection",
 			"faqsSection",
+			"ctaSection",
 			"aboutSection",
-			"mapSection",
-			"contactSection"
+			"mapSection"
 		],
 		"sectionPadding": 50,
 		"containerWidth": 1200,

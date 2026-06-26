@@ -19,6 +19,9 @@ const demoShowcase = Astro.props.data.content.demoShowcaseSection;
 						<a
 							href={demo.url}
 							target="_blank"
+							rel="noopener noreferrer"
+							data-button
+							style="text-decoration: none; color: var(--color-text); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
 							class="block rounded-xl shadow-md bg-[var(--color-background)] hover:shadow-xl transition overflow-hidden"
 						>
 							{demo.screenshotUrl && (
@@ -26,12 +29,14 @@ const demoShowcase = Astro.props.data.content.demoShowcaseSection;
 									src={demo.screenshotUrl}
 									alt={demo.title}
 									class="w-full h-40 object-cover"
+									loading="lazy"
+									decoding="async"
 								/>
 							)}
 							<div class="p-4 text-left">
-								<h3 class="font-semibold text-lg mb-1">{demo.title}</h3>
+								<h3 class="font-semibold text-lg mb-1" style="color: var(--color-heading);">{demo.title}</h3>
 								{demo.description && (
-									<p class="text-sm text-[var(--color-text)]">
+									<p class="text-sm" style="color: var(--color-text);">
 										{demo.description}
 									</p>
 								)}
