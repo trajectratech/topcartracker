@@ -11,25 +11,16 @@ import "../styles/global.css";
 const props = Astro.props as BaseLayoutProps;
 
 const {
-	title,
-	description,
-	url,
-	keywords,
 	businessName,
 	logoImage,
 	publicDirectory,
 } = props.data.brand;
 const colorVars = props.colorVars;
-const structuredData = props.structuredData;
-const webPageSchema = props.webPageSchema;
-const breadcrumbSchema = props.breadcrumbSchema;
-const ratingSchema = props.ratingSchema;
-const organizationSchema = props.organizationSchema;
-const faqsSchema = props.faqsSchema;
+const { metadata, structuredData } = props;
 ---
 
 <html
-	lang="en"
+	lang={metadata.locale.replace("_", "-")}
 	style={Object.entries(colorVars)
 		.map(([k, v]) => `${k}: ${v}`)
 		.join("; ")}
@@ -38,16 +29,17 @@ const faqsSchema = props.faqsSchema;
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<FontLoader fontFamily={props.data.typography?.fontFamily || ""} />
-		<title>{props.data.seo?.pageTitle || title}</title>
-		<meta
-			name="description"
-			content={props.data.seo?.metaDescription || description}
-		/>
-		<meta name="keywords" content={keywords.join(", ")} />
+		<title>{metadata.title}</title>
+		<meta name="description" content={metadata.description} />
+		<meta name="keywords" content={metadata.keywords.join(", ")} />
 		<meta name="theme-color" content={colorVars["--color-primary"]} />
 		<meta name="author" content={businessName} />
-		<link rel="canonical" href={url} />
-		<link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+		<meta name="application-name" content={metadata.siteName} />
+		<meta name="apple-mobile-web-app-title" content={metadata.siteName} />
+		<meta name="robots" content={metadata.robots} />
+		<link rel="canonical" href={metadata.canonicalUrl} />
+		<link rel="manifest" href="/site.webmanifest" />
+		<link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
 
 		{/* Favicon (browser tab) */}
 		<link rel="icon" href={publicDirectory + "/favicon.ico"} />
@@ -87,71 +79,39 @@ const faqsSchema = props.faqsSchema;
 			href={publicDirectory + "/favicon-16x16.png"}
 		/>
 
-		<!-- OG + Twitter + Pinterest -->
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta
-			property="og:image"
-			content={props.data.imagery?.heroImage || logoImage}
-		/>
-		<meta property="og:url" content={url} />
+		<meta property="og:type" content={metadata.type || "website"} />
+		<meta property="og:site_name" content={metadata.siteName} />
+		<meta property="og:locale" content={metadata.locale} />
+		<meta property="og:title" content={metadata.title} />
+		<meta property="og:description" content={metadata.description} />
+		<meta property="og:image" content={metadata.ogImage || logoImage} />
+		<meta property="og:image:alt" content={metadata.ogImageAlt} />
+		<meta property="og:url" content={metadata.canonicalUrl} />
 		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content={businessName} />
-		<meta
-			name="twitter:description"
-			content={props.data.seo?.metaDescription || description}
-		/>
-		<meta
-			name="twitter:image"
-			content={props.data.imagery?.heroImage || logoImage}
-		/>
+		<meta name="twitter:title" content={metadata.title} />
+		<meta name="twitter:description" content={metadata.description} />
+		<meta name="twitter:image" content={metadata.ogImage || logoImage} />
+		<meta name="twitter:image:alt" content={metadata.ogImageAlt} />
+		{metadata.twitterHandle && (
+			<meta name="twitter:site" content={metadata.twitterHandle} />
+		)}
 
-		<script src="//unpkg.com/alpinejs" defer></script>
+		<script is:inline src="//unpkg.com/alpinejs" defer></script>
 
 		<script
+			is:inline
 			src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
 		></script>
 
-		<!-- Structured Data -->
-		<script
-			type="application/ld+json"
-			set:html={JSON.stringify(structuredData)}
-		/>
-		<script
-			type="application/ld+json"
-			set:html={JSON.stringify(webPageSchema)}
-		/>
-
 		{
-			breadcrumbSchema && (
+			structuredData.map((schema) => (
 				<script
+					is:inline
 					type="application/ld+json"
-					set:html={JSON.stringify(breadcrumbSchema)}
+					set:html={JSON.stringify(schema)}
 				/>
-			)
+			))
 		}
-		{
-			ratingSchema && (
-				<script
-					type="application/ld+json"
-					set:html={JSON.stringify(ratingSchema)}
-				/>
-			)
-		}
-
-		{
-			faqsSchema && (
-				<script
-					type="application/ld+json"
-					set:html={JSON.stringify(faqsSchema)}
-				/>
-			)
-		}
-
-		<script
-			type="application/ld+json"
-			set:html={JSON.stringify(organizationSchema)}
-		/>
 	</head>
 	<body
 		class="bg-[var(--color-background)] text-text font-sans leading-relaxed scroll-smooth min-h-screen flex flex-col"

@@ -1,9 +1,9 @@
 {
 	"brand": {
-		"title": "Top Car Tracker Nigeria - Fleet Management, GPS,  Vehicle Tracking and Security, Dashboard Camera Installation, Glass Fortification and Modification",
+		"title": "Top Car Tracker Nigeria | GPS Vehicle Tracking, Fleet Management and Car Security",
 		"businessName": "Top Car Tracker",
 		"tagline": "Smart Security. Total Control. Enhanced Fleet Performance.",
-		"description": "Top Car Tracker Nigeria offers GPS vehicle tracking, fleet management, dashboard camera installation, fuel sensors, and car security solutions.",
+		"description": "Top Car Tracker Nigeria provides GPS car tracking, vehicle tracking, fleet management, dashcam installation, fuel monitoring, and car security solutions across Nigeria.",
 		"logoImage": "/topcartracker.webp",
 		"url": "https://www.topcartracker.com",
 		"publicDirectory": "",
@@ -18,7 +18,12 @@
 			"Fleet management",
 			"Fuel sensor installation",
 			"Dashboard camera installation",
-			"Push to start"
+			"Push to start",
+			"car tracker nigeria",
+			"gps tracker for cars nigeria",
+			"vehicle tracking nigeria",
+			"fleet tracking nigeria",
+			"car security nigeria"
 		]
 	},
 	"colors": {
@@ -73,7 +78,7 @@
 		"margin": 20
 	},
 
-	"googleBusinessProfileLink": "",
+	"googleBusinessProfileLink": "https://share.google/0OFrgn2u74qnwOWDn",
 
 	"socialMedia": [
 		{
@@ -95,14 +100,14 @@
 	],
 	"content": {
 		"heroSection": {
-			"heading": "Real-time Car Tracking and Fleet security, Our GPS Services are Top-notch and 100% Reliable.",
+			"heading": "Real-Time Car Tracking and Fleet Security You Can Rely On.",
 			"paragraph": "Top Car Tracker helps you monitor and secure your vehicles with ease.",
 			"ctaText": "Get Started",
-			"ctaUrl": "https://wa.me/2349010544454?text=Hi,%0A%20I'd%20Love%20To%20Make%20Few%20Enquires%20On%20Car%20Tracking%20Installation."
+			"ctaUrl": "https://wa.me/2349010544454?text=Hi,%0A%20I%27d%20love%20to%20make%20a%20few%20enquiries%20about%20car%20tracking%20installation."
 		},
 		"aboutSection": {
 			"heading": "About Us",
-			"paragraph": "Top Car Tracker NG provides reliable GPS vehicle tracking, fleet management, dashboard camera installation, glass modifications and fortifications and 24/7 monitoring solutions to improve safety and efficiency.",
+			"paragraph": "Top Car Tracker Nigeria provides reliable GPS vehicle tracking, fleet management, dashcam installation, glass fortification, and 24/7 monitoring solutions to improve safety and efficiency.",
 			"hasLottie": true,
 			"lottiePath": "/lottie/map-pin.json"
 		},
@@ -137,16 +142,16 @@
 			]
 		},
 		"faqsSection": {
-			"heading": "FAQS",
+			"heading": "FAQs",
 			"faqs": [
 				{
 					"question": "To get started do I need to bring my car to your office?",
-					"answer": "We offer installations at your convenience, We can come to your location at no extra cost, so far its within our coverage area."
+					"answer": "We offer installation at your convenience. We can come to your location at no extra cost, as long as it is within our coverage area."
 				},
 
 				{
 					"question": "How much does it cost to put a tracker on a car in Nigeria?",
-					"answer": "The cost of installing a car tracker in Nigeria varies based on several factors—most notably the features, quality of the device, and after-sales support. These elements play a major role in determining the final price. For example, the MTN car tracker typically costs between ₦40,000 and ₦60,000, but it also comes with recurring renewal fees. At Top Car Tracker Nigeria, we offer a more transparent and affordable option. All our standAll our standard tracking plans are one time payments no renewal fees whatsoever (except for fleet management packages)."
+					"answer": "The cost of installing a car tracker in Nigeria varies based on factors such as features, device quality, and after-sales support. These all affect the final price. For example, the MTN car tracker typically costs between ₦40,000 and ₦60,000, but it also comes with recurring renewal fees. At Top Car Tracker Nigeria, we offer a more transparent and affordable option. All our standard tracking plans are one-time payments with no renewal fees, except for fleet management packages."
 				},
 
 				{
@@ -155,13 +160,13 @@
 				},
 
 				{
-					"question": "What stand you out in other car tracking company in Nigeria?",
-					"answer": "What makes us different is that we’re the first car tracking company in Nigeria — and even Africa — to launch an app built on blockchain technology. TopCarTrackerNigeria is active in all major cities across the country, which makes us more accessible and responsive than most competitors. Our recovery rate for stolen vehicles is unmatched. With a success rate of around 98%, we also don’t charge a single naira to help clients recover their car."
+					"question": "What makes you different from other car tracking companies in Nigeria?",
+					"answer": "What makes us different is our focus on innovation, accessibility, and recovery support. Top Car Tracker Nigeria serves clients across major cities in the country, making us more accessible and responsive than many competitors. Our vehicle recovery support is one of our strongest advantages, and we do not charge clients an extra fee to assist with vehicle recovery."
 				},
 
 				{
 					"question": "Do you have any car tracking device with no monthly fee?",
-					"answer": " Looking for a car tracking device with no monthly fees? Worry no more, if you’re a private car owner or managing a small fleet (under 10 vehicles), you’re in luck — we don’t charge any renewal fees or monthly subscriptions. Only our fleet management plans come with a renewal fee, and that’s simply because they require more storage and server resources."
+					"answer": "If you are a private car owner or you manage a small fleet of fewer than 10 vehicles, we offer car tracking options with no monthly renewal fees. Only our fleet management plans come with renewal fees because they require additional storage and server resources."
 				},
 
 				{
@@ -174,7 +179,7 @@
 				},
 				{
 					"question": "Can I track my car outside Nigeria?",
-					"answer": "Yes, you can track your car from anywhere in the world using your phone or computer—as long as the car is within Nigeria and the tracker has network signal."
+					"answer": "Yes, you can track your car from anywhere in the world using your phone or computer, as long as the vehicle is within Nigeria and the tracker has network coverage."
 				},
 				{
 					"question": "Will the tracker drain my car battery?",
@@ -379,8 +384,166 @@
 		}
 	},
 	"seo": {
-		"pageTitle": "Top Car Tracker Nigeria - Fleet Management, GPS,  Vehicle Tracking and Security, Dashboard Camera Installation, Glass Fortification and Modification",
-		"metaDescription": "Top Car Tracker Nigeria offers GPS vehicle tracking, fleet management, dashboard camera installation, fuel sensors, and car security solutions."
+		"siteName": "Top Car Tracker Nigeria",
+		"siteLocale": "en_NG",
+		"siteCategory": "Automotive Security",
+		"defaultOgImage": "/topcartracker.webp",
+		"ogImageAlt": "Top Car Tracker Nigeria branding",
+		"twitterHandle": "@topcartrackerng",
+		"manifest": {
+			"name": "Top Car Tracker Nigeria",
+			"shortName": "Top Car Tracker",
+			"backgroundColor": "#F9FAFB",
+			"themeColor": "#0000ff",
+			"display": "standalone"
+		},
+		"aiSummary": [
+			"Top Car Tracker Nigeria is a Lagos-based car tracking and vehicle security company serving clients across Nigeria.",
+			"Core services include GPS car tracking, vehicle tracking, fleet management, dashcam installation, fuel sensor installation, push-to-start systems, and glass fortification.",
+			"The business offers installation support, fleet monitoring, and security-focused tracking solutions for private car owners, fleet operators, logistics teams, schools, and businesses."
+		],
+		"serviceAreas": [
+			"Nigeria",
+			"Lagos",
+			"Abuja",
+			"Port Harcourt",
+			"Ibadan",
+			"Kano"
+		],
+		"targetKeywords": [
+			"car tracker nigeria",
+			"vehicle tracking nigeria",
+			"gps car tracker nigeria",
+			"fleet management nigeria",
+			"car tracking company nigeria",
+			"car security solutions nigeria",
+			"dashcam installation nigeria",
+			"fuel sensor installation nigeria"
+		],
+		"pageTitle": "Top Car Tracker Nigeria | GPS Vehicle Tracking, Fleet Management and Car Security",
+		"metaDescription": "Top Car Tracker Nigeria offers GPS car tracking, vehicle tracking, fleet management, dashcam installation, fuel sensors, and car security solutions for private owners and fleets across Nigeria.",
+		"landingPages": [
+			{
+				"slug": "car-tracker-nigeria",
+				"pageTitle": "Car Tracker in Nigeria | GPS Car Tracking and Installation",
+				"metaDescription": "Looking for a car tracker in Nigeria? Top Car Tracker provides GPS car tracking, installation, monitoring, and vehicle security solutions for private car owners and businesses.",
+				"headline": "Car Tracker in Nigeria",
+				"intro": "Top Car Tracker helps drivers and businesses secure vehicles with GPS car tracking devices, expert installation, and real-time monitoring support in Nigeria.",
+				"serviceType": "GPS car tracking",
+				"location": "Nigeria",
+				"primaryKeyword": "car tracker nigeria",
+				"secondaryKeywords": [
+					"gps car tracker nigeria",
+					"best car tracker in nigeria",
+					"car tracking company nigeria"
+				],
+				"benefits": [
+					"Real-time location visibility",
+					"Vehicle recovery support",
+					"Professional installation"
+				],
+				"faqs": [
+					{
+						"question": "How much does a car tracker cost in Nigeria?",
+						"answer": "Pricing depends on the device features, installation requirements, and whether the tracker is for a private vehicle or fleet. Top Car Tracker provides quote-based pricing and professional installation support."
+					},
+					{
+						"question": "Can I track my car from my phone in Nigeria?",
+						"answer": "Yes. GPS car trackers let you monitor your vehicle from a mobile app or web dashboard as long as the device has network connectivity."
+					}
+				]
+			},
+			{
+				"slug": "vehicle-tracking-lagos",
+				"pageTitle": "Vehicle Tracking in Lagos | GPS Tracking for Cars and Fleets",
+				"metaDescription": "Need vehicle tracking in Lagos? Top Car Tracker offers GPS tracking, anti-theft tools, and fleet monitoring for private vehicles, business cars, and operational fleets.",
+				"headline": "Vehicle Tracking in Lagos",
+				"intro": "For drivers, transport operators, and fleet teams in Lagos, Top Car Tracker delivers practical vehicle tracking solutions designed for security, visibility, and day-to-day control.",
+				"serviceType": "Vehicle tracking",
+				"location": "Lagos",
+				"primaryKeyword": "vehicle tracking lagos",
+				"secondaryKeywords": [
+					"gps tracking lagos",
+					"car tracker lagos",
+					"vehicle security lagos"
+				],
+				"benefits": [
+					"Local installation support",
+					"Trip visibility across Lagos",
+					"Security-focused vehicle monitoring"
+				],
+				"faqs": [
+					{
+						"question": "Do you install vehicle trackers in Lagos?",
+						"answer": "Yes. Top Car Tracker provides installation support for clients in Lagos and can arrange convenient service based on location and vehicle type."
+					},
+					{
+						"question": "Is vehicle tracking useful for traffic-heavy cities like Lagos?",
+						"answer": "Yes. Vehicle tracking gives better route awareness, location history, and visibility for owners and fleet managers operating in high-traffic environments."
+					}
+				]
+			},
+			{
+				"slug": "fleet-management-nigeria",
+				"pageTitle": "Fleet Management in Nigeria | Vehicle Tracking and Monitoring",
+				"metaDescription": "Top Car Tracker provides fleet management in Nigeria with GPS tracking, driver visibility, route monitoring, fuel oversight, and tools for business vehicles and logistics teams.",
+				"headline": "Fleet Management in Nigeria",
+				"intro": "Top Car Tracker supports Nigerian businesses with fleet management solutions that combine vehicle tracking, driver monitoring, and operational oversight for better fleet performance.",
+				"serviceType": "Fleet management",
+				"location": "Nigeria",
+				"primaryKeyword": "fleet management nigeria",
+				"secondaryKeywords": [
+					"fleet tracking nigeria",
+					"gps fleet management nigeria",
+					"logistics fleet monitoring nigeria"
+				],
+				"benefits": [
+					"Multi-vehicle visibility",
+					"Driver and route oversight",
+					"Fleet-focused reporting support"
+				],
+				"faqs": [
+					{
+						"question": "Who needs fleet management in Nigeria?",
+						"answer": "Fleet management is useful for logistics businesses, delivery teams, schools, field operations, and any company that manages multiple vehicles."
+					},
+					{
+						"question": "Can I monitor multiple vehicles from one account?",
+						"answer": "Yes. Fleet systems are designed to help managers view multiple vehicles in a single dashboard for easier monitoring and coordination."
+					}
+				]
+			},
+			{
+				"slug": "dashcam-installation-nigeria",
+				"pageTitle": "Dashcam Installation in Nigeria | Vehicle Camera and Road Safety",
+				"metaDescription": "Top Car Tracker offers dashcam installation in Nigeria for private drivers, business vehicles, and fleets that need road footage, incident evidence, and safety support.",
+				"headline": "Dashcam Installation in Nigeria",
+				"intro": "Dashcam installation helps drivers and fleet operators document road activity, improve accountability, and strengthen vehicle safety with reliable in-car video coverage.",
+				"serviceType": "Dashcam installation",
+				"location": "Nigeria",
+				"primaryKeyword": "dashcam installation nigeria",
+				"secondaryKeywords": [
+					"car camera installation nigeria",
+					"dashboard camera nigeria",
+					"vehicle dashcam nigeria"
+				],
+				"benefits": [
+					"Incident evidence capture",
+					"Driver behavior visibility",
+					"Professional in-car setup"
+				],
+				"faqs": [
+					{
+						"question": "Why install a dashcam in Nigeria?",
+						"answer": "A dashcam records road activity and provides useful footage for incident review, driver accountability, and general vehicle safety."
+					},
+					{
+						"question": "Can dashcams be installed alongside vehicle tracking?",
+						"answer": "Yes. Dashcams and vehicle trackers can complement each other by combining footage with location-based monitoring."
+					}
+				]
+			}
+		]
 	},
 	"settings": {
 		"darkMode": true,

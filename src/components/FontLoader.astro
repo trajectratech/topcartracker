@@ -12,26 +12,24 @@ const cssFontFamily = fontFamily.includes(" ") ? `"${fontFamily}"` : fontFamily;
 const fontCSS = `:root { --font-family-base: ${cssFontFamily}, sans-serif; }`;
 ---
 
-<head>
-	<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-	<!-- Preload for performance -->
-	<link rel="preload" as="style" href={fontHref} />
+<!-- Preload for performance -->
+<link rel="preload" as="style" href={fontHref} />
 
-	<!-- Non-blocking font load -->
-	<link
-		rel="stylesheet"
-		href={fontHref}
-		media="print"
-		onload="this.media='all'"
-	/>
+<!-- Non-blocking font load -->
+<link
+	rel="stylesheet"
+	href={fontHref}
+	media="print"
+	onload="this.media='all'"
+/>
 
-	<!-- Fallback for older browsers -->
-	<noscript>
-		<link rel="stylesheet" href={fontHref} />
-	</noscript>
+<!-- Fallback for older browsers -->
+<noscript>
+	<link rel="stylesheet" href={fontHref} />
+</noscript>
 
-	<!-- Apply custom font family -->
-	<style is:global set:html={fontCSS}></style>
-</head>
+<!-- Apply custom font family -->
+<style is:global set:html={fontCSS}></style>

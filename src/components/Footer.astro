@@ -19,6 +19,7 @@ type SocialKey =
 
 const { data } = Astro.props;
 const { socialMedia } = data;
+const landingPages = data.seo?.landingPages?.slice(0, 4) || [];
 
 const iconMap: Record<SocialKey, string> = {
 	instagram: "mdi:instagram",
@@ -121,12 +122,32 @@ const iconMap: Record<SocialKey, string> = {
 				)
 			}
 		</div>
+
+		{
+			landingPages.length > 0 && (
+				<div class="card flex flex-col items-center md:items-start gap-4 md:max-w-sm">
+					<h2 class="font-extrabold">Popular Searches</h2>
+					<ul class="space-y-2 text-[var(--color-background)]/80">
+						{landingPages.map((page) => (
+							<li>
+								<a
+									href={`/${page.slug}/`}
+									class="cursor-pointer hover:text-[var(--color-accent)] transition-colors"
+								>
+									{page.headline}
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			)
+		}
 	</div>
 
 	<hr class="w-full border-t border-[var(--color-background)]/30 my-6 mt-10" />
 
 	<p class="text-xs text-center text-[var(--color-background)]/80">
-		&copy; {new Date().getFullYear()}
+		&copy; {new Date().getFullYear()}{" "}
 		{data.brand.businessName}
 		{data.poweredBy.shouldShow && " — Powered by "}
 		{
