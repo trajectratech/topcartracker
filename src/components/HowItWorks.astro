@@ -52,13 +52,13 @@ const shouldRenderSection = Boolean(
 					<div class="mt-16 grid items-start gap-8 lg:grid-cols-[1.04fr_0.96fr]">
 						<div class="grid items-start gap-4">
 							{steps.slice(0, 3).map((step, index) => (
-								<div class="step-card">
+								<div class="step-card" aria-label={step.title}>
 									<p class="eyebrow-label">
 										Step {index + 1}
 									</p>
-									<h3 class="mt-4 text-xl font-bold tracking-[-0.03em] text-[var(--color-heading)]">
+									<p class="mt-4 text-xl font-bold tracking-[-0.03em] text-[var(--color-heading)]">
 										{step.title}
-									</h3>
+									</p>
 									<p class="mt-3 text-sm leading-7 text-[var(--color-text-muted)]">
 										{step.description}
 									</p>

@@ -33,16 +33,16 @@ const services = servicesSection?.listItems ?? [];
 			<div class="lg:sticky lg:top-28">
 				<div class="premium-panel p-8 sm:p-10">
 					<p class="eyebrow-label">Protection stack</p>
-					<h3 class="mt-4 text-3xl font-black tracking-[-0.05em] text-[var(--color-heading)] sm:text-4xl">
+					<p class="mt-4 text-3xl font-black tracking-[-0.05em] text-[var(--color-heading)] sm:text-4xl">
 						Smart layers that make theft response easier and monitoring clearer.
-					</h3>
+					</p>
 					<p class="mt-5 text-base leading-8 text-[var(--color-text-muted)]">
 						Every installation is matched to the vehicle, the risk profile, and the level of monitoring you want afterwards.
 					</p>
 
 					<div class="mt-8 grid gap-4">
 						{services.slice(0, 3).map((service, index) => (
-							<article class="step-card flex items-start gap-4">
+							<article class="step-card flex items-start gap-4" aria-label={service.title}>
 								<div
 									class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full"
 									style="background: color-mix(in srgb, var(--color-primary) 12%, transparent); color: var(--color-primary);"
@@ -50,9 +50,9 @@ const services = servicesSection?.listItems ?? [];
 									0{index + 1}
 								</div>
 								<div>
-									<h3 class="text-xl font-bold tracking-[-0.03em] text-[var(--color-heading)]">
+									<p class="text-xl font-bold tracking-[-0.03em] text-[var(--color-heading)]">
 										{service.title}
-									</h3>
+									</p>
 									{service.description && (
 										<p class="mt-2 text-sm leading-7 text-[var(--color-text-muted)]">
 											{service.description}
@@ -70,9 +70,9 @@ const services = servicesSection?.listItems ?? [];
 					<p class="eyebrow-label" style="color: color-mix(in srgb, var(--color-background) 66%, transparent);">
 						Why it converts
 					</p>
-					<h3 class="mt-4 text-3xl font-black tracking-[-0.05em]">
+					<p class="mt-4 text-3xl font-black tracking-[-0.05em]">
 						Clients buy confidence, not just hardware.
-					</h3>
+					</p>
 					<div class="mt-6 grid gap-4 text-sm" style="color: color-mix(in srgb, var(--color-background) 78%, transparent);">
 						<p class="list-check !text-inherit before:!bg-[var(--color-accent)]">Concealed installation with reliable signal placement.</p>
 						<p class="list-check !text-inherit before:!bg-[var(--color-accent)]">Tools selected for real alerts and real recovery response.</p>
@@ -85,15 +85,15 @@ const services = servicesSection?.listItems ?? [];
 						const serviceId = `service-title-${index + 3}`;
 						return (
 							<article
-								aria-labelledby={serviceId}
+								aria-label={service.title}
 								class={`step-card ${index === 0 ? "sm:col-span-2" : ""}`}
 							>
 								<div class="flex items-start justify-between gap-4">
 									<div>
 										<p class="eyebrow-label">Additional layer</p>
-										<h3 id={serviceId} class="mt-3 text-lg font-bold tracking-[-0.03em] text-[var(--color-heading)]">
+										<p id={serviceId} class="mt-3 text-lg font-bold tracking-[-0.03em] text-[var(--color-heading)]">
 											{service.title}
-										</h3>
+										</p>
 									</div>
 									<div
 										class="flex h-11 w-11 items-center justify-center rounded-full"
