@@ -13,112 +13,98 @@ const services = servicesSection?.listItems ?? [];
 {Array.isArray(servicesSection?.listItems) && servicesSection?.listItems?.length > 0 && <section
 	id="services"
 	aria-labelledby="services-heading"
-	class="scrolling-section relative overflow-hidden bg-[var(--color-background)] py-28 text-[var(--color-text)]"
+	class="scrolling-section section-shell text-[var(--color-text)]"
+	data-surface="muted"
 >
-	<div class="absolute inset-0 -z-10 opacity-60" aria-hidden="true"
-		style="background: radial-gradient(circle at top left, color-mix(in srgb, var(--color-primary) 18%, transparent) 0%, transparent 60%), radial-gradient(circle at bottom right, color-mix(in srgb, var(--color-accent) 14%, transparent) 0%, transparent 62%);"
-	></div>
-
-	<div class="mx-auto max-w-7xl px-6">
-		<div class="mx-auto max-w-3xl text-center">
-			<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
-				Services
-			</p>
-			<h2 id="services-heading" class="mt-6 text-4xl font-black tracking-tight sm:text-5xl" style="color: var(--color-heading);">
+	<div class="container-shell">
+		<div class="section-heading-center">
+			<p class="section-kicker">What We Install</p>
+			<h2 id="services-heading" class="section-title" style="max-width: 14ch;">
 				{servicesSection.heading}
 			</h2>
 			{servicesSection.paragraph && (
-				<p class="mt-6 text-lg leading-8" style="color: var(--color-text);">
+				<p class="section-copy">
 					{servicesSection.paragraph}
 				</p>
 			)}
 		</div>
 
-		<div class="mt-16 grid items-start gap-6 lg:grid-cols-12">
-			{services.slice(0, 1).map((service) => (
-				<article
-					class="card lg:col-span-6 self-start rounded-[34px] p-10"
-					style="background: color-mix(in srgb, var(--color-muted) 74%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
-				>
-					<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
-						Signature
+		<div class="mt-16 grid gap-8 lg:grid-cols-[0.86fr_1.14fr]">
+			<div class="lg:sticky lg:top-28">
+				<div class="premium-panel p-8 sm:p-10">
+					<p class="eyebrow-label">Protection stack</p>
+					<p class="mt-4 text-3xl font-black tracking-[-0.05em] text-[var(--color-heading)] sm:text-4xl">
+						Smart layers that make theft response easier and monitoring clearer.
 					</p>
-					<h3 class="mt-6 text-3xl font-extrabold tracking-tight sm:text-4xl" style="color: var(--color-heading);">
-						{service.title}
-					</h3>
-					{service.description && (
-						<p class="mt-6 max-w-2xl text-base leading-8" style="color: var(--color-text);">
-							{service.description}
-						</p>
-					)}
-					<div class="mt-10 flex flex-wrap gap-3">
-						{services.slice(1, 5).map((item) => (
-							<span
-								class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm"
-								style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
-							>
-								<Icon name="heroicons-solid:check-circle" class="h-4 w-4" style="color: var(--color-accent);" aria-hidden="true" />
-								<span class="font-semibold" style="color: var(--color-heading);">{item.title}</span>
-							</span>
+					<p class="mt-5 text-base leading-8 text-[var(--color-text-muted)]">
+						Every installation is matched to the vehicle, the risk profile, and the level of monitoring you want afterwards.
+					</p>
+
+					<div class="mt-8 grid gap-4">
+						{services.slice(0, 3).map((service, index) => (
+							<article class="step-card flex items-start gap-4" aria-label={service.title}>
+								<div
+									class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full"
+									style="background: color-mix(in srgb, var(--color-primary) 12%, transparent); color: var(--color-primary);"
+								>
+									0{index + 1}
+								</div>
+								<div>
+									<p class="text-xl font-bold tracking-[-0.03em] text-[var(--color-heading)]">
+										{service.title}
+									</p>
+									{service.description && (
+										<p class="mt-2 text-sm leading-7 text-[var(--color-text-muted)]">
+											{service.description}
+										</p>
+									)}
+								</div>
+							</article>
 						))}
 					</div>
-				</article>
-			))}
-
-			<div class="lg:col-span-6 grid items-start gap-6 sm:grid-cols-2 lg:grid-cols-2">
-				{services.slice(1, 5).map((service, index) => {
-					const serviceId = `service-title-${index + 1}`;
-					return (
-						<article
-							aria-labelledby={serviceId}
-							class="card self-start rounded-[28px] p-7 transition duration-300 hover:-translate-y-1"
-							style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
-						>
-							<div
-								class="mb-6 flex h-12 w-12 items-center justify-center rounded-full"
-								style="background: color-mix(in srgb, var(--color-muted) 70%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 65%, transparent);"
-								aria-hidden="true"
-							>
-								<Icon name="heroicons-solid:check" class="h-5 w-5" style="color: var(--color-heading);" />
-							</div>
-							<h3 id={serviceId} class="text-xl font-bold tracking-tight" style="color: var(--color-heading);">
-								{service.title}
-							</h3>
-							{service.description && (
-								<p class="mt-3 text-sm leading-7" style="color: var(--color-text);">
-									{service.description}
-								</p>
-							)}
-						</article>
-					);
-				})}
+				</div>
 			</div>
 
-			{services.slice(5).length > 0 && (
-				<div class="lg:col-span-12 grid items-start gap-6 md:grid-cols-3">
-					{services.slice(5).map((service, index) => {
-						const serviceId = `service-title-${index + 5}`;
+			<div class="grid gap-4">
+				<div class="dark-panel p-8 sm:p-9">
+					<p class="eyebrow-label" style="color: color-mix(in srgb, var(--color-background) 66%, transparent);">
+						Why it converts
+					</p>
+					<p class="mt-4 text-3xl font-black tracking-[-0.05em]">
+						Clients buy confidence, not just hardware.
+					</p>
+					<div class="mt-6 grid gap-4 text-sm" style="color: color-mix(in srgb, var(--color-background) 78%, transparent);">
+						<p class="list-check !text-inherit before:!bg-[var(--color-accent)]">Concealed installation with reliable signal placement.</p>
+						<p class="list-check !text-inherit before:!bg-[var(--color-accent)]">Tools selected for real alerts and real recovery response.</p>
+						<p class="list-check !text-inherit before:!bg-[var(--color-accent)]">Useful support after installation, not silence after payment.</p>
+					</div>
+				</div>
+
+				<div class="grid gap-4 sm:grid-cols-2">
+					{services.slice(3).map((service, index) => {
+						const serviceId = `service-title-${index + 3}`;
 						return (
 							<article
-								aria-labelledby={serviceId}
-								class="card self-start rounded-[28px] p-7 transition duration-300 hover:-translate-y-1"
-								style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+								aria-label={service.title}
+								class={`step-card ${index === 0 ? "sm:col-span-2" : ""}`}
 							>
-								<div
-									class="mb-6 flex h-12 w-12 items-center justify-center rounded-full"
-									style="background: color-mix(in srgb, var(--color-muted) 70%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 65%, transparent);"
-									aria-hidden="true"
-								>
-									<Icon name="heroicons-solid:check" class="h-5 w-5" style="color: var(--color-heading);" />
-								</div>
-								<div class="flex items-center justify-between gap-4">
-									<h3 id={serviceId} class="text-xl font-bold tracking-tight" style="color: var(--color-heading);">
-										{service.title}
-									</h3>
-									<Icon name="heroicons-solid:arrow-right" class="h-5 w-5" style="color: var(--color-primary);" aria-hidden="true" />
+								<div class="flex items-start justify-between gap-4">
+									<div>
+										<p class="eyebrow-label">Additional layer</p>
+										<p id={serviceId} class="mt-3 text-lg font-bold tracking-[-0.03em] text-[var(--color-heading)]">
+											{service.title}
+										</p>
+									</div>
+									<div
+										class="flex h-11 w-11 items-center justify-center rounded-full"
+										style="background: color-mix(in srgb, var(--color-primary) 10%, transparent);"
+										aria-hidden="true"
+									>
+										<Icon name="heroicons-solid:shield-check" class="h-5 w-5 text-[var(--color-primary)]" />
+									</div>
 								</div>
 								{service.description && (
-									<p class="mt-4 text-sm leading-7" style="color: var(--color-text);">
+									<p class="mt-4 text-sm leading-7 text-[var(--color-text-muted)]">
 										{service.description}
 									</p>
 								)}
@@ -126,7 +112,7 @@ const services = servicesSection?.listItems ?? [];
 						);
 					})}
 				</div>
-			)}
+			</div>
 		</div>
 	</div>
 </section>

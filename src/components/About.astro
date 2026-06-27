@@ -1,6 +1,8 @@
 ---
 import type { ThemeConfig } from "../types/theme";
 import CallToActionButton from "./CallToActionButton.astro";
+import LottiePlayer from "./tsx/lottie-player";
+import { formatPhoneDisplay } from "../utils/formatPhone";
 
 export interface Props {
 	data: ThemeConfig;
@@ -9,6 +11,7 @@ export interface Props {
 const { data } = Astro.props;
 const content = data.content.aboutSection;
 const contact = data.contact;
+const displayPhone = formatPhoneDisplay(contact.phone);
 
 const hasAboutContent =
 	content?.heading?.trim() ||
@@ -24,37 +27,37 @@ const lottie = content.lottiePath;
 		<section
 			id="about"
 			aria-labelledby="about-heading"
-			class="scrolling-section relative isolate bg-[var(--color-background)] px-6 py-28 text-[var(--color-text)]"
+			class="scrolling-section section-shell relative isolate text-[var(--color-text)]"
+			data-surface="muted"
 		>
-			<div class="absolute inset-0 -z-10 opacity-60" aria-hidden="true"
-				style="background: radial-gradient(circle at bottom right, color-mix(in srgb, var(--color-accent) 14%, transparent) 0%, transparent 60%);"
-			></div>
-
-			<div class="mx-auto grid max-w-7xl items-start gap-14 lg:grid-cols-[0.95fr_1.05fr]">
+			<div class="container-shell grid items-start gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16">
 				<div class="text-left">
-					<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
-						About
-					</p>
-					<h2 id="about-heading" class="mt-6 text-4xl font-black tracking-tight sm:text-5xl" style="color: var(--color-heading);">
+					<p class="section-kicker">About</p>
+					<h2 id="about-heading" class="section-title" style="max-width: 12ch;">
 						{content.heading}
 					</h2>
-					<p class="mt-6 text-lg leading-8" style="color: var(--color-text);">
+					<p class="section-copy">
 						{content.paragraph}
 					</p>
+
+					<div class="mt-8 grid gap-3">
+						<p class="list-check">Trusted installation guidance from first enquiry to activation.</p>
+						<p class="list-check">Security-focused recommendations based on the vehicle and use case.</p>
+						<p class="list-check">Support that remains useful after installation, not only before payment.</p>
+					</div>
 
 					<address class="mt-10 not-italic grid items-start gap-4 sm:grid-cols-2">
 						{contact.email && (
 							<a
 								href={`mailto:${contact.email}`}
 								data-button
-								class="cursor-pointer rounded-[24px] p-6 transition duration-300 hover:-translate-y-0.5"
-								style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+								class="step-card cursor-pointer transition duration-300 hover:-translate-y-0.5"
 								aria-label={`Send an email to ${contact.email}`}
 							>
-								<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+								<p class="eyebrow-label">
 									Email
 								</p>
-								<p class="mt-4 text-base font-semibold" style="color: var(--color-heading);">
+								<p class="mt-4 text-base font-semibold text-[var(--color-heading)]">
 									{contact.email}
 								</p>
 							</a>
@@ -64,15 +67,14 @@ const lottie = content.lottiePath;
 							<a
 								href={`tel:${contact.phone}`}
 								data-button
-								class="cursor-pointer rounded-[24px] p-6 transition duration-300 hover:-translate-y-0.5"
-								style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
+								class="step-card cursor-pointer transition duration-300 hover:-translate-y-0.5"
 								aria-label={`Call ${contact.phone}`}
 							>
-								<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+								<p class="eyebrow-label">
 									Phone
 								</p>
-								<p class="mt-4 text-base font-semibold" style="color: var(--color-heading);">
-									{contact.phone}
+								<p class="mt-4 text-base font-semibold text-[var(--color-heading)]">
+									{displayPhone}
 								</p>
 							</a>
 						)}
@@ -82,20 +84,15 @@ const lottie = content.lottiePath;
 						<CallToActionButton
 							href={data.content.heroSection.ctaUrl}
 							label={data.content.heroSection.ctaText}
+							className="mt-10"
 						/>
 					)}
 				</div>
 
-				<div
-					class="rounded-[34px] p-6"
-					style="background: color-mix(in srgb, var(--color-muted) 70%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
-				>
-					<div
-						class="rounded-[32px] p-6"
-						style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
-					>
+				<div class="premium-panel p-6">
+					<div class="soft-card p-6">
 						{content.imageUrl && (
-							<div class="overflow-hidden rounded-[28px]" style="border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);">
+							<div class="overflow-hidden rounded-[1.75rem]" style="border: 1px solid var(--border-subtle);">
 								<div class="relative w-full" style="aspect-ratio: 16 / 11;">
 									<img
 										src={content.imageUrl}
@@ -111,38 +108,25 @@ const lottie = content.lottiePath;
 						)}
 
 						{!content?.imageUrl && hasLottie && lottie && (
-							<div class="js-only h-[360px] w-full overflow-hidden rounded-[28px]" style="border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);">
-								<lottie-player
-									src={lottie}
-									background="transparent"
-									speed="1"
-									loop
-									autoplay
-									style="width: 100%; height: 100%"
-								/>
+							<div class="js-only h-[360px] w-full overflow-hidden rounded-[1.75rem]" style="border: 1px solid var(--border-subtle);">
+								<LottiePlayer client:visible path={lottie} />
 							</div>
 						)}
 
 						<div class="mt-6 grid items-start gap-4 sm:grid-cols-2">
-							<div
-								class="rounded-[24px] p-6"
-								style="background: color-mix(in srgb, var(--color-muted) 62%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
-							>
-								<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+							<div class="step-card">
+								<p class="eyebrow-label">
 									Address
 								</p>
-								<p class="mt-4 text-sm font-semibold leading-7" style="color: var(--color-heading);">
+								<p class="mt-4 text-sm font-semibold leading-7 text-[var(--color-heading)]">
 									{contact.address}
 								</p>
 							</div>
-							<div
-								class="rounded-[24px] p-6"
-								style="background: color-mix(in srgb, var(--color-muted) 62%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
-							>
-								<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+							<div class="step-card">
+								<p class="eyebrow-label">
 									Support
 								</p>
-								<p class="mt-4 text-sm font-semibold leading-7" style="color: var(--color-heading);">
+								<p class="mt-4 text-sm font-semibold leading-7 text-[var(--color-heading)]">
 									Advice before and after installation
 								</p>
 							</div>

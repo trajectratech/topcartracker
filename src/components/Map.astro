@@ -1,32 +1,58 @@
 ---
 import type { ThemeConfig } from "../types/theme";
+import { formatPhoneDisplay } from "../utils/formatPhone";
 
 export interface Props {
 	data: ThemeConfig;
 }
 
 const { data } = Astro.props;
+const displayPhone = formatPhoneDisplay(data.contact.phone);
 ---
 
 {
 	data?.map?.embedUrl && (
-		<section class="pt-0 bg-[var(--color-muted)]" aria-labelledby="map-heading">
-			<h2 id="map-heading" class="sr-only">
-				Location Map
-			</h2>
+		<section class="scrolling-section section-shell pt-0" aria-labelledby="map-heading" data-surface="muted">
+			<div class="container-shell">
+				<div class="section-grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+					<div>
+						<p class="section-kicker">Location</p>
+						<h2 id="map-heading" class="section-title" style="max-width: 10ch;">
+							Visit, call, or book installation from your location.
+						</h2>
+						<p class="section-copy">
+							Based in Lagos with installation support designed to be as convenient as possible for clients within our coverage area.
+						</p>
+						<div class="mt-8 grid gap-4">
+							<div class="step-card">
+								<p class="eyebrow-label">Address</p>
+								<p class="mt-4 text-base font-semibold text-[var(--color-heading)]">
+									{data.contact.address}
+								</p>
+							</div>
+							<div class="step-card">
+								<p class="eyebrow-label">Phone</p>
+								<p class="mt-4 text-base font-semibold text-[var(--color-heading)]">
+									{displayPhone}
+								</p>
+							</div>
+						</div>
+					</div>
 
-			{data?.map?.embedUrl && (
-				<iframe
-					src={data.map.embedUrl}
-					width="100%"
-					height="300"
-					class="rounded-none border-0 shadow"
-					loading="lazy"
-					allowfullscreen
-					title="Embedded map"
-					referrerpolicy="no-referrer-when-downgrade"
-				/>
-			)}
+					<div class="map-shell">
+						<iframe
+							src={data.map.embedUrl}
+							width="100%"
+							height="420"
+							class="border-0"
+							loading="lazy"
+							allowfullscreen
+							title="Embedded map"
+							referrerpolicy="no-referrer-when-downgrade"
+						/>
+					</div>
+				</div>
+			</div>
 		</section>
 	)
 }

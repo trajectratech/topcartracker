@@ -9,27 +9,17 @@ const cta = Astro.props.data.content.ctaSection;
 
 {
 	cta && (
-		<section
-			class="scrolling-section relative overflow-hidden bg-[var(--color-background)] px-6 py-28 text-[var(--color-text)]"
-		>
-			<div class="absolute inset-0 -z-10 opacity-70" aria-hidden="true"
-				style="background: radial-gradient(circle at 20% 10%, color-mix(in srgb, var(--color-primary) 20%, transparent) 0%, transparent 55%), radial-gradient(circle at 80% 90%, color-mix(in srgb, var(--color-accent) 14%, transparent) 0%, transparent 60%);"
-			></div>
-
-			<div
-				class="mx-auto max-w-7xl rounded-[40px] p-10 sm:p-14"
-				style="background: color-mix(in srgb, var(--color-muted) 70%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
-			>
-				<div class="grid items-start gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+		<section class="scrolling-section section-shell text-[var(--color-text)]">
+			<div class="container-shell">
+				<div class="cta-shell p-10 sm:p-14">
+					<div class="grid items-start gap-12 lg:grid-cols-[1.08fr_0.92fr]">
 					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
-							Get Started
-						</p>
-						<h2 class="mt-6 text-4xl font-black tracking-tight sm:text-5xl" style="color: var(--color-heading);">
+						<p class="section-kicker">Get Started</p>
+						<h2 class="mt-7 max-w-4xl text-[clamp(2.7rem,4.5vw,4.6rem)] font-black leading-[0.95] tracking-[-0.06em] text-[var(--color-heading)]">
 							{cta.heading}
 						</h2>
 						{cta.subheading && (
-							<p class="mt-6 text-lg leading-8" style="color: var(--color-text);">
+							<p class="mt-6 max-w-2xl text-lg leading-8 text-[var(--color-text-muted)]">
 								{cta.subheading}
 							</p>
 						)}
@@ -38,8 +28,7 @@ const cta = Astro.props.data.content.ctaSection;
 							target="_blank"
 							rel="noopener noreferrer"
 							data-button
-							class="mt-10 inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold tracking-tight transition duration-300 hover:-translate-y-0.5"
-							style="background: var(--color-primary); color: var(--color-background) !important; -webkit-text-fill-color: var(--color-background); text-decoration: none;"
+							class="primary-button mt-10 inline-flex cursor-pointer items-center justify-center gap-2"
 						>
 							{cta.ctaText}
 							<Icon name="heroicons-solid:external-link" class="h-4 w-4" aria-hidden="true" />
@@ -47,39 +36,31 @@ const cta = Astro.props.data.content.ctaSection;
 					</div>
 
 					<div class="grid items-start gap-4 sm:grid-cols-2">
-						<div
-							class="self-start rounded-[28px] p-6"
-							style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
-						>
-							<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+						<div class="step-card self-start">
+							<p class="eyebrow-label">
 								Install
 							</p>
-							<p class="mt-4 text-base font-semibold leading-7" style="color: var(--color-heading);">
+							<p class="mt-4 text-base font-semibold leading-7 text-[var(--color-heading)]">
 								Professional installation at your location
 							</p>
 						</div>
-						<div
-							class="self-start rounded-[28px] p-6"
-							style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
-						>
-							<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+						<div class="step-card self-start">
+							<p class="eyebrow-label">
 								Monitor
 							</p>
-							<p class="mt-4 text-base font-semibold leading-7" style="color: var(--color-heading);">
+							<p class="mt-4 text-base font-semibold leading-7 text-[var(--color-heading)]">
 								Track, alert, and control from your phone
 							</p>
 						</div>
-						<div
-							class="self-start rounded-[28px] p-6 sm:col-span-2"
-							style="background: color-mix(in srgb, var(--color-background) 76%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);"
-						>
-							<p class="text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--color-text);">
+						<div class="step-card self-start sm:col-span-2">
+							<p class="eyebrow-label">
 								Support
 							</p>
-							<p class="mt-4 text-base font-semibold leading-7" style="color: var(--color-heading);">
+							<p class="mt-4 text-base font-semibold leading-7 text-[var(--color-heading)]">
 								Advice before and after installation, with responsive after-sales support
 							</p>
 						</div>
+					</div>
 					</div>
 				</div>
 			</div>

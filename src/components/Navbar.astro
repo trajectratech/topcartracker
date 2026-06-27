@@ -15,13 +15,13 @@ const navItems = getNavItemsFromTheme(data);
 <style>
 	.mobile-panel {
 		position: absolute;
-		top: 64px;
-		left: 12px;
-		right: 12px;
-		border-radius: 22px;
-		background: var(--color-background);
-		border: 1px solid color-mix(in srgb, var(--color-muted) 85%, transparent);
-		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+		top: calc(100% + 0.85rem);
+		left: 0;
+		right: 0;
+		border-radius: 1.6rem;
+		background: color-mix(in srgb, var(--surface-raised) 98%, transparent);
+		border: 1px solid var(--border-subtle);
+		box-shadow: var(--shadow-soft);
 		transform: translateY(-8px);
 		opacity: 0;
 		transition: transform 200ms ease, opacity 200ms ease;
@@ -40,38 +40,40 @@ const navItems = getNavItemsFromTheme(data);
 <nav
 	role="navigation"
 	aria-label="Main navigation"
-	class="w-full sticky top-0 z-50 text-[var(--color-text)] shadow-sm"
-	style="background: var(--color-background); border-bottom: 1px solid color-mix(in srgb, var(--color-muted) 80%, transparent);"
+	class="sticky top-0 z-50 px-4 pt-4 text-[var(--color-text)] sm:px-6"
 >
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-		<div class="flex items-center justify-between h-16">
-			<!-- Logo -->
-			<a href="/" class="cursor-pointer flex items-center space-x-2" aria-label={`${data.brand.businessName} home`}>
+	<div class="container-shell">
+		<div class="premium-card flex min-h-18 items-center justify-between gap-4 px-4 py-3 sm:px-5">
+			<a href="/" class="flex cursor-pointer items-center gap-3" aria-label={`${data.brand.businessName} home`}>
 				{
 					data.brand.logoImage && (
 						<img
 							src={data.brand.logoImage}
 							alt={data.brand.businessName ? `${data.brand.businessName} logo` : "Site logo"}
-							class="h-8 w-auto"
-							width="32"
-							height="32"
-							loading="lazy"
+							class="h-10 w-auto"
+							width="40"
+							height="40"
+							loading="eager"
 							decoding="async"
 							fetchpriority="high"
 						/>
 					)
 				}
-				{
-					data.brand.businessName && (
-						<span class="hidden md:inline text-lg font-bold text-[var(--color-primary)]">
-							{data.brand.businessName}
-						</span>
-					)
-				}
+				<div class="min-w-0">
+					<p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">
+						Vehicle Security
+					</p>
+					{
+						data.brand.businessName && (
+							<span class="block truncate text-base font-black tracking-[-0.03em] text-[var(--color-heading)] sm:text-lg">
+								{data.brand.businessName}
+							</span>
+						)
+					}
+				</div>
 			</a>
 
-			<!-- Desktop Nav -->
-			<div class="hidden md:flex space-x-6">
+			<div class="hidden items-center gap-1 md:flex">
 				{
 					navItems.map((item) =>
 						item.external ? (
@@ -80,15 +82,15 @@ const navItems = getNavItemsFromTheme(data);
 								target="_blank"
 								rel="noopener noreferrer"
 								data-button
-								style="background-color: var(--color-primary); color: var(--color-background) !important; -webkit-text-fill-color: var(--color-background); text-decoration: none;"
-								class="cursor-pointer inline-flex items-center justify-center text-sm font-semibold px-5 py-2.5 rounded-full shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md"
+								class="primary-button cursor-pointer px-5 py-3 text-sm"
 							>
 								{item.label}
 							</a>
 						) : (
 							<a
 								href={item.href}
-								class="cursor-pointer text-sm font-medium !text-[var(--color-heading)] hover:!text-[var(--color-hover)] transition duration-300"
+								class="cursor-pointer rounded-full px-4 py-3 text-sm font-semibold transition duration-200"
+								style="color: var(--color-heading); text-decoration: none;"
 							>
 								{item.label}
 							</a>
@@ -97,25 +99,22 @@ const navItems = getNavItemsFromTheme(data);
 				}
 			</div>
 
-			<!-- Mobile Toggle -->
-			<details id="mobile-menu" class="md:hidden">
+			<details id="mobile-menu" class="relative md:hidden">
 				<summary
-					class="cursor-pointer rounded-full px-4 py-2 text-[var(--color-heading)] transition duration-200 hover:-translate-y-0.5"
-					style="border: 1px solid color-mix(in srgb, var(--color-muted) 85%, transparent); background: var(--color-background);"
+					class="secondary-button cursor-pointer px-4 py-3 text-sm"
 					aria-label="Menu"
 				>
-					<span aria-hidden="true">☰</span>
+					<span aria-hidden="true">Menu</span>
 				</summary>
 
 				<div class="mobile-panel">
 					<div class="flex items-center justify-between px-5 pt-5">
-						<p class="text-sm font-semibold" style="color: var(--color-heading);">
+						<p class="text-sm font-semibold tracking-[-0.02em]" style="color: var(--color-heading);">
 							Menu
 						</p>
 						<button
 							data-mobile-close
-							class="cursor-pointer rounded-full px-3 py-2 text-sm font-semibold transition duration-200 hover:-translate-y-0.5"
-							style="border: 1px solid color-mix(in srgb, var(--color-muted) 85%, transparent); background: var(--color-background); color: var(--color-heading); text-decoration: none;"
+							class="secondary-button cursor-pointer px-3 py-2 text-sm"
 							aria-label="Close menu"
 							type="button"
 						>
@@ -124,10 +123,7 @@ const navItems = getNavItemsFromTheme(data);
 					</div>
 
 					<div class="mt-4 px-3 pb-5">
-						<div
-							class="rounded-2xl px-3 py-2"
-							style="background: color-mix(in srgb, var(--color-muted) 55%, transparent); border: 1px solid color-mix(in srgb, var(--color-muted) 85%, transparent);"
-						>
+						<div class="grid gap-2 rounded-[1.4rem] bg-[color:color-mix(in_srgb,var(--surface-subtle)_78%,transparent)] px-3 py-3">
 							{navItems.map((item, index) =>
 								item.external ? (
 									<div class={index === 0 ? "" : "mt-3"}>
@@ -137,8 +133,8 @@ const navItems = getNavItemsFromTheme(data);
 									<a
 										href={item.href}
 										data-mobile-link
-										class="cursor-pointer flex items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold transition duration-200 hover:-translate-y-0.5"
-										style="color: var(--color-heading); text-decoration: none;"
+										class="cursor-pointer flex items-center justify-between rounded-[1rem] px-4 py-3 text-sm font-semibold transition duration-200"
+										style="background: color-mix(in srgb, var(--surface-base) 98%, transparent); color: var(--color-heading); text-decoration: none;"
 									>
 										<span>{item.label}</span>
 										<span aria-hidden="true" style="color: var(--color-primary);">→</span>
@@ -160,7 +156,7 @@ const navItems = getNavItemsFromTheme(data);
 
 						const closeLink = root.querySelector("[data-mobile-close]");
 						if (closeLink) {
-							closeLink.addEventListener("click", (event) => {
+							closeLink.addEventListener("click", () => {
 								close();
 							});
 						}
