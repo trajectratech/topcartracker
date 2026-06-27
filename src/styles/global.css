@@ -156,6 +156,24 @@ section {
 	color: var(--color-heading);
 }
 
+.display-title {
+	font-size: clamp(3rem, 6vw, 5.45rem);
+	line-height: 0.96;
+	letter-spacing: -0.05em;
+	font-weight: 800;
+	color: var(--color-heading);
+	text-wrap: balance;
+}
+
+.display-title--compact {
+	font-size: clamp(2.75rem, 5vw, 4.7rem);
+	line-height: 0.98;
+	letter-spacing: -0.045em;
+	font-weight: 800;
+	color: var(--color-heading);
+	text-wrap: balance;
+}
+
 .section-copy {
 	margin-top: 1.4rem;
 	max-width: 44rem;
@@ -553,6 +571,11 @@ a:not([data-button]):not(.chip):hover {
 
 	.section-title {
 		max-width: none;
+	}
+
+	.display-title,
+	.display-title--compact {
+		text-wrap: pretty;
 	}
 }
 
