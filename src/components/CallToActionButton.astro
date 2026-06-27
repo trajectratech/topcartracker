@@ -23,8 +23,7 @@ const className = Astro.props.className ?? "";
 	target={target}
 	rel={rel}
 	data-button
-	style="background-color: var(--color-primary); color: var(--color-background) !important; -webkit-text-fill-color: var(--color-background); text-decoration: none;"
-	class={`mt-8 inline-flex cursor-pointer items-center justify-center rounded-full px-6 py-3 text-sm font-semibold tracking-tight shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary)] ${className}`}
+	class={`primary-button cursor-pointer ${className}`}
 >
 	{label}
 </a>

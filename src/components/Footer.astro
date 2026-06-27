@@ -2,6 +2,7 @@
 import { Icon } from "astro-icon/components";
 
 import type { ThemeConfig } from "../types/theme";
+import { formatPhoneDisplay } from "../utils/formatPhone";
 
 export interface Props {
 	data: ThemeConfig;
@@ -20,6 +21,7 @@ type SocialKey =
 const { data } = Astro.props;
 const { socialMedia } = data;
 const landingPages = data.seo?.landingPages?.slice(0, 4) || [];
+const displayPhone = formatPhoneDisplay(data.contact.phone);
 
 const iconMap: Record<SocialKey, string> = {
 	instagram: "mdi:instagram",
@@ -36,131 +38,183 @@ const iconMap: Record<SocialKey, string> = {
 <footer
 	id="contact"
 	aria-label="Footer"
-	class="scrolling-section bg-[var(--color-muted)] text-[var(--color-text)] py-16 px-6 text-sm"
+	class="scrolling-section section-shell text-sm"
+	data-surface="muted"
 >
-	<div
-		class="max-w-6xl mx-auto flex flex-col md:flex-row md:justify-between md:items-start gap-10 text-center md:text-left"
-	>
-		<!-- Left: Logo & Description -->
-		<div
-			class="carrd flex flex-col items-center md:items-start gap-4 md:max-w-sm"
-		>
-			{
-				data.brand.logoImage && (
-					<img
-						src={data.brand.logoImage}
-						alt={data.brand.businessName ?? "Company Logo"}
-						class="h-10 w-auto"
-						loading="lazy"
-					/>
-				)
-			}
+	<div class="container-shell">
+		<div class="footer-shell overflow-hidden p-0">
+			<div class="dark-panel rounded-none border-0 p-8 sm:p-10">
+				<div class="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
+					<div>
+						<p class="section-kicker !border-white/10 !bg-white/10 !text-white/70 before:!bg-[var(--color-accent)]">
+							Ready To Talk?
+						</p>
+						<h2 class="mt-7 max-w-3xl text-[clamp(2.3rem,4vw,4rem)] font-black leading-[0.94] tracking-[-0.06em]">
+							Get the right tracking setup without guesswork.
+						</h2>
+						<p class="mt-5 max-w-2xl text-base leading-8 text-[color:color-mix(in_srgb,var(--color-background)_78%,transparent)]">
+							Tell us what you drive, what you want to monitor, and how much control you want. We will recommend the right protection level clearly.
+						</p>
+					</div>
 
-			{
-				data.brand.description && (
-					<p class="text-sm leading-relaxed opacity-80">
-						{data.brand.description}
-					</p>
-				)
-			}
-		</div>
-
-		<!-- Right: Social Links & Contact -->
-		<div class="card flex flex-col items-center md:items-start gap-6">
-			<h2 class="font-extrabold text-[var(--color-heading)]">Contact Details</h2>
-			<!-- Contact Info -->
-			<div class="flex flex-col sm:flex-row gap-6 items-center md:justify-end">
-				<a
-					href={`mailto:${data.contact.email}`}
-					class="flex items-center gap-2 hover:text-[var(--color-accent)] transition-colors"
-					aria-label={`Email ${data.contact.email}`}
-				>
-					<Icon
-						name="heroicons-outline:envelope"
-						class="w-5 h-5"
-						aria-hidden="true"
-					/>
-					<span>{data.contact.email}</span>
-				</a>
-				<a
-					href={`tel:${data.contact.phone}`}
-					class="flex items-center gap-2 hover:text-[var(--color-accent)] transition-colors"
-					aria-label={`Call ${data.contact.phone}`}
-				>
-					<Icon
-						name="heroicons-outline:phone"
-						class="w-5 h-5"
-						aria-hidden="true"
-					/>
-					<span>{data.contact.phone}</span>
-				</a>
+					<div class="grid gap-3 sm:grid-cols-2">
+						<a
+							href={`tel:${data.contact.phone}`}
+							data-button
+							class="rounded-[1.4rem] border px-5 py-5 text-left no-underline transition duration-200 hover:-translate-y-1"
+							style="border-color: color-mix(in srgb, white 10%, transparent); background: color-mix(in srgb, white 8%, transparent); color: var(--color-background);"
+						>
+							<p class="eyebrow-label !text-white/60">Call</p>
+							<p class="mt-3 text-lg font-bold tracking-[-0.03em]">{displayPhone}</p>
+						</a>
+						<a
+							href={`mailto:${data.contact.email}`}
+							data-button
+							class="rounded-[1.4rem] border px-5 py-5 text-left no-underline transition duration-200 hover:-translate-y-1"
+							style="border-color: color-mix(in srgb, white 10%, transparent); background: color-mix(in srgb, white 8%, transparent); color: var(--color-background);"
+						>
+							<p class="eyebrow-label !text-white/60">Email</p>
+							<p class="mt-3 text-lg font-bold tracking-[-0.03em] break-all">{data.contact.email}</p>
+						</a>
+					</div>
+				</div>
 			</div>
 
-			{
-				Array.isArray(socialMedia) && socialMedia.length > 0 && (
-					<nav aria-label="Social media links">
-						<ul class="flex gap-4 justify-center md:justify-end">
-							{socialMedia.map((item) => {
-								const iconKey = item.name.toLowerCase() as SocialKey;
-								const icon = iconMap[iconKey] ?? "mdi:web";
-								return (
-									<li>
-										<a
-											href={item.url}
-											target="_blank"
-											rel="noopener noreferrer"
-											aria-label={`Visit our ${item.name} page`}
-											class="cursor-pointer hover:scale-110 hover:text-[var(--color-accent)] transition-transform duration-200"
-										>
-											<Icon name={icon} class="w-6 h-6" aria-hidden="true" />
-										</a>
-									</li>
-								);
-							})}
-						</ul>
-					</nav>
-				)
-			}
-		</div>
+			<div class="p-8 sm:p-10">
+				<div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr_0.8fr]">
+					<div>
+						<div class="flex items-center gap-4">
+							{
+								data.brand.logoImage && (
+									<img
+										src={data.brand.logoImage}
+										alt={data.brand.businessName ?? "Company Logo"}
+										class="h-11 w-auto"
+										loading="lazy"
+										decoding="async"
+									/>
+								)
+							}
+							<div>
+								<p class="text-lg font-black tracking-[-0.04em] text-[var(--color-heading)]">
+									{data.brand.businessName}
+								</p>
+								<p class="text-sm text-[var(--color-text-muted)]">
+									Vehicle tracking, fleet visibility, and car security.
+								</p>
+							</div>
+						</div>
 
-		{
-			landingPages.length > 0 && (
-				<div class="card flex flex-col items-center md:items-start gap-4 md:max-w-sm">
-					<h2 class="font-extrabold text-[var(--color-heading)]">Popular Searches</h2>
-					<ul class="space-y-2 opacity-80">
-						{landingPages.map((page) => (
-							<li>
-								<a
-									href={`/${page.slug}/`}
-									class="cursor-pointer hover:text-[var(--color-accent)] transition-colors"
-								>
-									{page.headline}
+						{data.brand.description && (
+							<p class="mt-6 max-w-md text-sm leading-7 text-[var(--color-text-muted)]">
+								{data.brand.description}
+							</p>
+						)}
+
+						<div class="mt-6 flex flex-wrap gap-3">
+							<a href={`tel:${data.contact.phone}`} class="chip">
+								<Icon name="heroicons-outline:phone" class="h-4 w-4" aria-hidden="true" />
+								<span>{displayPhone}</span>
+							</a>
+							<a href={`mailto:${data.contact.email}`} class="chip">
+								<Icon name="heroicons-outline:envelope" class="h-4 w-4" aria-hidden="true" />
+								<span>{data.contact.email}</span>
+							</a>
+						</div>
+					</div>
+
+					<div class="step-card">
+						<p class="eyebrow-label">Contact details</p>
+						<div class="mt-5 grid gap-4">
+							<div>
+								<p class="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-text-muted)]">Phone</p>
+								<a href={`tel:${data.contact.phone}`} class="mt-2 block text-base font-semibold text-[var(--color-heading)] no-underline">
+									{displayPhone}
 								</a>
-							</li>
-						))}
-					</ul>
+							</div>
+							<div>
+								<p class="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-text-muted)]">Email</p>
+								<a href={`mailto:${data.contact.email}`} class="mt-2 block text-base font-semibold text-[var(--color-heading)] no-underline break-all">
+									{data.contact.email}
+								</a>
+							</div>
+							<div>
+								<p class="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-text-muted)]">Address</p>
+								<p class="mt-2 text-base font-semibold text-[var(--color-heading)]">
+									{data.contact.address}
+								</p>
+							</div>
+						</div>
+
+						{
+							Array.isArray(socialMedia) && socialMedia.length > 0 && (
+								<nav aria-label="Social media links" class="mt-6">
+									<ul class="flex flex-wrap gap-3">
+										{socialMedia.map((item) => {
+											const iconKey = item.name.toLowerCase() as SocialKey;
+											const icon = iconMap[iconKey] ?? "mdi:web";
+											return (
+												<li>
+													<a
+														href={item.url}
+														target="_blank"
+														rel="noopener noreferrer"
+														aria-label={`Visit our ${item.name} page`}
+														class="chip"
+													>
+														<Icon name={icon} class="h-4 w-4" aria-hidden="true" />
+														<span>{item.name}</span>
+													</a>
+												</li>
+											);
+										})}
+									</ul>
+								</nav>
+							)
+						}
+					</div>
+
+					{
+						landingPages.length > 0 && (
+							<div class="step-card">
+								<p class="eyebrow-label">Popular searches</p>
+								<ul class="mt-5 grid gap-3">
+									{landingPages.map((page) => (
+										<li>
+											<a
+												href={`/${page.slug}/`}
+												class="text-sm font-semibold text-[var(--color-heading)] no-underline"
+											>
+												{page.headline}
+											</a>
+										</li>
+									))}
+								</ul>
+							</div>
+						)
+					}
 				</div>
-			)
-		}
+			</div>
+
+			<hr class="my-8 w-full border-t opacity-30" style="border-color: var(--color-text);" />
+
+			<p class="text-xs text-center opacity-80">
+				&copy; {new Date().getFullYear()}{" "}
+				{data.brand.businessName}
+				{data.poweredBy.shouldShow && " — Powered by "}
+				{
+					data.poweredBy.shouldShow && (
+						<a
+							href={data.poweredBy.url}
+							class="underline hover:text-[var(--color-accent)]"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{data.poweredBy.title}
+						</a>
+					)
+				}
+			</p>
+		</div>
 	</div>
-
-	<hr class="w-full border-t my-6 mt-10 opacity-30" style="border-color: var(--color-text);" />
-
-	<p class="text-xs text-center opacity-80">
-		&copy; {new Date().getFullYear()}{" "}
-		{data.brand.businessName}
-		{data.poweredBy.shouldShow && " — Powered by "}
-		{
-			data.poweredBy.shouldShow && (
-				<a
-					href={data.poweredBy.url}
-					class="underline hover:text-[var(--color-accent)]"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					{data.poweredBy.title}
-				</a>
-			)
-		}
-	</p>
 </footer>

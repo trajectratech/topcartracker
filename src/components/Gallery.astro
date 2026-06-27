@@ -13,36 +13,39 @@ const { gallery, galleryTitle } = Astro.props.data.imagery;
 		<section
 			id="gallery"
 			aria-labelledby="gallery-heading"
-			class="scrolling-section py-24 bg-[var(--color-background)]"
+			class="scrolling-section section-shell"
 		>
-			<div class="max-w-6xl mx-auto px-6">
+			<div class="container-shell">
 				{galleryTitle && (
-					<h2
-						id="gallery-heading"
-						class="text-3xl font-bold text-center mb-12 text-[var(--color-primary)]"
-					>
-						{galleryTitle}
-					</h2>
+					<div class="section-heading-center">
+						<p class="section-kicker">Gallery</p>
+						<h2 id="gallery-heading" class="section-title" style="max-width: 10ch;">
+							{galleryTitle}
+						</h2>
+						<p class="section-copy">
+							A quick look at installations, upgrades, and the kind of finish clients can expect.
+						</p>
+					</div>
 				)}
 
 				<div
-					class="card grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+					class="mt-16 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
 					role="list"
 				>
-					{gallery.map((img, index) => (
+					{gallery.map((img) => (
 						<figure
 							role="listitem"
-							class="rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition duration-300 ease-in-out group"
+							class="premium-card overflow-hidden transition duration-300 ease-in-out group hover:-translate-y-1"
 						>
 							<img
 								src={img.imageUrl}
 								alt={img?.alt || img?.caption || ""}
-								class="w-full aspect-[4/3] object-cover rounded-lg shadow-md"
+								class="w-full aspect-[4/3] object-cover"
 								loading="lazy"
 								decoding="async"
 							/>
 							{img.caption && (
-								<figcaption class="text-center text-sm mt-2 text-[var(--color-primary)]">
+								<figcaption class="px-4 py-4 text-sm font-semibold text-[var(--color-heading)]">
 									{img.caption}
 								</figcaption>
 							)}
